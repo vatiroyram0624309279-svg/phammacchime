@@ -134,6 +134,7 @@
             color: #333;
             transition: all 0.3s;
             border: 2px solid transparent;
+            position: relative;
         }
 
         .sidebar-menu-item:hover {
@@ -276,45 +277,6 @@
         .container {
             max-width: 480px;
             margin: 0 auto;
-        }
-
-        .emergency-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #00E676 0%, #00C853 100%);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.4);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .emergency-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(0, 230, 118, 0.5);
-        }
-
-        .emergency-btn:active {
-            transform: translateY(0);
-        }
-
-        .emergency-btn.growing {
-            background: linear-gradient(135deg, #FFC107 0%, #FFA000 100%);
-            box-shadow: 0 4px 20px rgba(255, 193, 7, 0.4);
-            animation: pulse-grow 2s infinite;
-        }
-
-        @keyframes pulse-grow {
-            0%, 100% { box-shadow: 0 4px 20px rgba(255, 193, 7, 0.4); }
-            50% { box-shadow: 0 4px 28px rgba(255, 193, 7, 0.6); }
         }
 
         .grow-buttons {
@@ -595,34 +557,34 @@
         .temp-item {
             background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
             color: white;
-            padding: 20px 12px;
-            border-radius: 16px;
+            padding: 12px 8px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.35);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.35);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .temp-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.45);
         }
 
         .temp-label {
-            font-size: 12px;
+            font-size: 11px;
             opacity: 0.95;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             font-weight: 600;
         }
 
         .temp-value {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 800;
             line-height: 1;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .temp-unit {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.9;
             font-weight: 600;
         }
@@ -913,7 +875,7 @@
                     <span>📋</span>
                     <span>ประวัติการเก็บ</span>
                 </li>
-                <li class="sidebar-menu-item" onclick="showSection('fertilizer')" style="position: relative;">
+                <li class="sidebar-menu-item" onclick="showSection('fertilizer')">
                     <span>🌾</span>
                     <span>ประวัติการใส่ปุ๋ย</span>
                     <div class="notification-badge" id="fertilizer-badge" style="display: none;">0</div>
