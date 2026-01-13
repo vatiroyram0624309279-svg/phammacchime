@@ -13,17 +13,12 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: 
-                linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%),
-                url('https://i.ibb.co/MkmmJcxW/your-image.jpg') center/cover fixed;
-            background-blend-mode: overlay;
-            min-height: 100vh;
-            padding: 16px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: url('https://i.ibb.co/Hf7VjRbp/desktop-wallpaper-milky-green-blurred-backgrounds-blur.jpg') center/cover fixed;
+    min-height: 100vh;
+    padding: 16px;
+}
 
         .hamburger-btn {
             position: fixed;
@@ -871,6 +866,139 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+		/* Custom Confirm Dialog */
+        .confirm-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .confirm-overlay.show {
+            display: flex;
+        }
+
+        .confirm-dialog {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            opacity: 0;
+            animation: popIn 0.3s forwards;
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .confirm-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .confirm-icon.warning {
+            background: linear-gradient(135deg, #FFC107 0%, #FFA000 100%);
+            box-shadow: 0 8px 24px rgba(255, 193, 7, 0.4);
+        }
+
+        .confirm-icon.danger {
+            background: linear-gradient(135deg, #FF5252 0%, #F44336 100%);
+            box-shadow: 0 8px 24px rgba(244, 67, 54, 0.4);
+        }
+
+        .confirm-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .confirm-message {
+            font-size: 15px;
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .confirm-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .confirm-btn.cancel {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            color: #666;
+        }
+
+        .confirm-btn.cancel:hover {
+            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .confirm-btn.confirm {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .confirm-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .confirm-btn.danger {
+            background: linear-gradient(135deg, #FF5252 0%, #F44336 100%);
+            color: white;
+        }
+
+        .confirm-btn.danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -971,7 +1099,24 @@
             </div>
         </div>
     </div>
-
+<!-- Custom Confirm Dialog -->
+    <div class="confirm-overlay" id="confirm-overlay">
+        <div class="confirm-dialog">
+            <div class="confirm-icon" id="confirm-icon">❓</div>
+            <div class="confirm-title" id="confirm-title">ยืนยันการทำงาน</div>
+            <div class="confirm-message" id="confirm-message">คุณต้องการดำเนินการต่อหรือไม่?</div>
+            <div class="confirm-buttons">
+                <button class="confirm-btn cancel" id="confirm-cancel">
+                    <span>✕</span>
+                    <span>ยกเลิก</span>
+                </button>
+                <button class="confirm-btn confirm" id="confirm-confirm">
+                    <span>✓</span>
+                    <span>ยืนยัน</span>
+                </button>
+            </div>
+        </div>
+    </div>
     <div id="loading" class="loading">
         <div class="spinner"></div>
         กำลังเชื่อมต่อ Blynk...
@@ -1016,7 +1161,7 @@
         <div class="timer-card">
             <div class="card-header">
                 <span>⏱️</span>
-                <span>ระยะเวลาการปลูกไข่ผำ</span>
+                <span>ระยะเวลาการปลูก</span>
             </div>
             <div class="timer-grid">
                 <div class="timer-item inactive" id="timer-item-1">
@@ -1096,6 +1241,15 @@
                 </div>
                 <div class="led-status" id="water3-status">น้ำเต็ม</div>
             </div>
+			<div class="led-item">
+    <div class="led-left">
+        <div class="led-circle" id="water4-led"></div>
+        <div class="led-info">
+            <div class="led-label">🪣 ถังพักน้ำ</div>
+        </div>
+    </div>
+    <div class="led-status" id="water4-status">น้ำเต็ม</div>
+</div>
         </div>
 
         <div class="card">
@@ -1143,10 +1297,10 @@
                 </div>
             </div>
 
-            <div class="info-box">
-				<div class="info-icon">ℹ️</div>
-				<div class="info-text">สามารถกดได้เฉพาะเมื่อ: น้ำเต็ม + กำลังปลูกอยู่</div>
-			</div>
+<div class="info-box">
+    <div class="info-icon">⚠️</div>
+    <div class="info-text">ขณะเก็บไข่ผำควรอยู่กับเครื่องตลอดเวลา</div>
+</div>
         </div>
     </div>
 
@@ -1158,7 +1312,7 @@
         let harvestHistory = [];
         let fertilizerHistory = [];
         let demoMode = false;
-        let waterStatus = { 1: false, 2: false, 3: false };
+        let waterStatus = { 1: false, 2: false, 3: false, 4: false };
         let growingStatus = { 
             1: { active: false, startTime: null, minutes: 0, harvestTime: null },
             2: { active: false, startTime: null, minutes: 0, harvestTime: null },
@@ -1168,7 +1322,64 @@
             harvest: [],
             fertilizer: []
         };
-
+// Custom Confirm Dialog
+        function showConfirm(title, message, options = {}) {
+            return new Promise((resolve) => {
+                const overlay = document.getElementById('confirm-overlay');
+                const icon = document.getElementById('confirm-icon');
+                const titleEl = document.getElementById('confirm-title');
+                const messageEl = document.getElementById('confirm-message');
+                const cancelBtn = document.getElementById('confirm-cancel');
+                const confirmBtn = document.getElementById('confirm-confirm');
+                
+                // ตั้งค่า icon และสี
+                icon.textContent = options.icon || '❓';
+                icon.className = 'confirm-icon';
+                if (options.type === 'warning') icon.classList.add('warning');
+                if (options.type === 'danger') icon.classList.add('danger');
+                
+                // ตั้งค่าข้อความ
+                titleEl.textContent = title;
+                messageEl.textContent = message;
+                
+                // ตั้งค่าปุ่ม
+                confirmBtn.className = 'confirm-btn confirm';
+                if (options.confirmType === 'danger') {
+                    confirmBtn.classList.remove('confirm');
+                    confirmBtn.classList.add('danger');
+                }
+                
+                // แสดง dialog
+                overlay.classList.add('show');
+                
+                // Event handlers
+                const handleConfirm = () => {
+                    overlay.classList.remove('show');
+                    cleanup();
+                    resolve(true);
+                };
+                
+                const handleCancel = () => {
+                    overlay.classList.remove('show');
+                    cleanup();
+                    resolve(false);
+                };
+                
+                const cleanup = () => {
+                    confirmBtn.removeEventListener('click', handleConfirm);
+                    cancelBtn.removeEventListener('click', handleCancel);
+                    overlay.removeEventListener('click', handleOverlayClick);
+                };
+                
+                const handleOverlayClick = (e) => {
+                    if (e.target === overlay) handleCancel();
+                };
+                
+                confirmBtn.addEventListener('click', handleConfirm);
+                cancelBtn.addEventListener('click', handleCancel);
+                overlay.addEventListener('click', handleOverlayClick);
+            });
+        }
         // แสดงการแจ้งเตือน
         function showAlert(type, pondNum, message) {
             const container = document.getElementById('alert-container');
@@ -1309,8 +1520,14 @@
         }
 
         // เคลียร์ประวัติปุ๋ย
-        function clearFertilizerHistory() {
-            if (confirm('คุณต้องการเคลียร์ประวัติการใส่ปุ๋ยทั้งหมดใช่หรือไม่?')) {
+async function clearFertilizerHistory() {
+    const confirmed = await showConfirm(
+        '🗑️ ลบประวัติการใส่ปุ๋ย',
+        'คุณต้องการเคลียร์ประวัติการใส่ปุ๋ยทั้งหมดใช่หรือไม่?',
+        { icon: '🗑️', type: 'danger', confirmType: 'danger' }
+    );
+    
+    if (confirmed) {
                 fertilizerHistory = [];
                 saveFertilizerHistory();
                 displayFertilizerHistory();
@@ -1337,6 +1554,7 @@
         }
 
 // ถ้าไม่มีกระบะไหนปลูกแล้ว ปิดออกซิเจน
+// ถ้าไม่มีกระบะไหนปลูกแล้ว ปิดออกซิเจน
 const anyPondActive = Object.values(growingStatus).some(s => s.active);
 if (!anyPondActive) {
     const oxygenToggle = document.getElementById('oxygen-toggle-menu');
@@ -1346,6 +1564,7 @@ if (!anyPondActive) {
     oxygenMode.textContent = 'ปิด';
     sendToBlynk('V25', 1);
 }
+
 // อัพเดท UI การปลูก
 function updateGrowingUI(pondNum, isGrowing) {
     const btn = document.getElementById(`grow-btn-${pondNum}`);
@@ -1495,22 +1714,29 @@ function syncControls(source, isActive, type) {
                 }
             }
         }
-
+                
         // ข้อมูลจำลองสำหรับโหมดทดสอบ
-        const demoData = {
-            V5: 28.5,
-            V6: 29.2,
-            V7: 27.8,
-            V15: 1,
-            V16: 1,
-            V17: 0,
-			V0: 0,  // สถานะไฟ
-			V1: 0,   // สถานะออกซิเจน
-        };
+const demoData = {
+    V2: 1,   // สถานะถังพักน้ำ
+    V5: 28.5,
+    V6: 29.2,
+    V7: 27.8,
+    V15: 1,
+    V16: 1,
+    V17: 0,
+    V0: 0,
+    V1: 0,
+};
 
         // เคลียร์ประวัติ
-        function clearHistory() {
-            if (confirm('คุณต้องการเคลียร์ประวัติการเก็บทั้งหมดใช่หรือไม่?')) {
+async function clearHistory() {
+    const confirmed = await showConfirm(
+        '🗑️ ลบประวัติการเก็บ',
+        'คุณต้องการเคลียร์ประวัติการเก็บทั้งหมดใช่หรือไม่?',
+        { icon: '🗑️', type: 'danger', confirmType: 'danger' }
+    );
+    
+    if (confirmed) {
                 harvestHistory = [];
                 saveHistory();
                 displayHistory();
@@ -1615,7 +1841,7 @@ function syncControls(source, isActive, type) {
 
 async function fetchBlynkData() {
     try {
-        const pins = ['V5', 'V6', 'V7', 'V15', 'V16', 'V17', 'V24', 'V25', 'V10', 'V11', 'V12', 'V0', 'V1', 'V20', 'V21', 'V22'];
+        const pins = ['V2', 'V5', 'V6', 'V7', 'V15', 'V16', 'V17', 'V24', 'V25', 'V10', 'V11', 'V12', 'V0', 'V1', 'V20', 'V21', 'V22'];
         const response = await fetch(
             `${BLYNK_SERVER}/external/api/get?token=${BLYNK_AUTH}&${pins.join('&')}`,
             { method: 'GET', timeout: 5000 }
@@ -1640,6 +1866,7 @@ async function fetchBlynkData() {
                 displayData(demoData);
                 // เปลี่ยนข้อมูลจำลองทุก 3 วินาที
                 setInterval(() => {
+					demoData.V2 = Math.random() > 0.5 ? 1 : 0;
                     demoData.V5 = (27 + Math.random() * 3).toFixed(1);
                     demoData.V6 = (27 + Math.random() * 3).toFixed(1);
                     demoData.V7 = (27 + Math.random() * 3).toFixed(1);
@@ -1663,6 +1890,8 @@ function displayData(data) {
     updateWaterStatus(1, data.V17);
     updateWaterStatus(2, data.V16);
     updateWaterStatus(3, data.V15);
+	updateWaterStatus(4, data.V2);
+
     
     // ✅ เพิ่มบรรทัดนี้
     updateLEDStatus(data);
@@ -1702,26 +1931,28 @@ function updateLEDStatus(data) {
 }
 
 
-        function updateWaterStatus(pondNum, value) {
-            const hasWater = value == 1;
-            waterStatus[pondNum] = hasWater; // เก็บสถานะ
-            
-            const led = document.getElementById(`water${pondNum}-led`);
-            const status = document.getElementById(`water${pondNum}-status`);
-            
-            if (hasWater) {
-                led.classList.remove('off');
-                status.classList.remove('off');
-                status.textContent = 'น้ำเต็ม';
-            } else {
-                led.classList.add('off');
-                status.classList.add('off');
-                status.textContent = 'ไม่เต็ม';
-            }
-            
-            // อัพเดทสถานะปุ่มปั๊ม
-            updatePumpButtonStatus(pondNum, hasWater);
-        }
+function updateWaterStatus(pondNum, value) {
+    const hasWater = value == 1;
+    waterStatus[pondNum] = hasWater; // เก็บสถานะ
+    
+    const led = document.getElementById(`water${pondNum}-led`);
+    const status = document.getElementById(`water${pondNum}-status`);
+    
+    if (hasWater) {
+        led.classList.remove('off');
+        status.classList.remove('off');
+        status.textContent = 'น้ำเต็ม';
+    } else {
+        led.classList.add('off');
+        status.classList.add('off');
+        status.textContent = 'ไม่เต็ม';
+    }
+    
+    // อัพเดทสถานะปุ่มปั๊ม (เฉพาะกระบะ 1-3 เท่านั้น)
+    if (pondNum <= 3) {
+        updatePumpButtonStatus(pondNum, hasWater);
+    }
+}
 
 function updatePumpButtonStatus(pondNum, hasWater) {
     const pumpItem = document.getElementById(`pump${pondNum}-toggle`).closest('.switch-item');
@@ -1822,7 +2053,74 @@ function getPumpPin(pondNum) {
 				}
 			}
 		}
-
+// ฟังก์ชันเริ่ม/หยุดการปลูก
+        async function toggleGrowing(pondNum) {
+            if (emergencyStop) return;
+            
+            const isCurrentlyGrowing = growingStatus[pondNum].active;
+            
+if (!isCurrentlyGrowing) {
+    // เริ่มปลูก
+    const confirmed = await showConfirm(
+        '🌱 เริ่มการปลูก',
+        `ต้องการเริ่มปลูกในกระบะที่ ${pondNum} ใช่หรือไม่?`,
+        { icon: '🌱', type: 'normal' }
+    );
+    
+    if (confirmed) {
+                    growingStatus[pondNum].active = true;
+                    growingStatus[pondNum].startTime = Date.now();
+                    growingStatus[pondNum].minutes = 0;
+                    
+                    updateGrowingUI(pondNum, true);
+                    saveGrowingData();
+                    
+                    // เปิดออกซิเจนอัตโนมัติถ้ามีกระบะใดกระบะหนึ่งปลูกอยู่
+                    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
+                    if (!oxygenToggle.classList.contains('active')) {
+                        oxygenToggle.classList.add('active');
+                        document.getElementById('oxygen-mode-menu').textContent = 'Auto';
+                        sendToBlynk('V25', 0);
+                    }
+                    
+                    // ส่งสัญญาณไปยัง Blynk
+                    const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+                    await sendToBlynk(growPins[pondNum], 1);
+                }
+} else {
+    // หยุดการปลูก
+    const confirmed = await showConfirm(
+        '⚠️ หยุดการปลูก',
+        `ต้องการหยุดการปลูกในกระบะที่ ${pondNum} ใช่หรือไม่?\n\nข้อมูลเวลาการปลูกจะถูกรีเซ็ต`,
+        { icon: '⚠️', type: 'warning', confirmType: 'danger' }
+    );
+    
+    if (confirmed) {
+                    growingStatus[pondNum].active = false;
+                    growingStatus[pondNum].startTime = null;
+                    growingStatus[pondNum].minutes = 0;
+                    
+                    updateGrowingUI(pondNum, false);
+                    saveGrowingData();
+                    
+                    // ถ้าไม่มีกระบะไหนปลูกอยู่เลย ปิดออกซิเจน
+                    const anyPondActive = Object.values(growingStatus).some(s => s.active);
+                    if (!anyPondActive) {
+                        const oxygenToggle = document.getElementById('oxygen-toggle-menu');
+                        oxygenToggle.classList.remove('active');
+                        document.getElementById('oxygen-mode-menu').textContent = 'ปิด';
+                        sendToBlynk('V25', 1);
+                    }
+                    
+                    // ส่งสัญญาณไปยัง Blynk
+                    const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+                    await sendToBlynk(growPins[pondNum], 0);
+                    
+                    // ลบการแจ้งเตือนเก็บเกี่ยวของกระบะนี้
+                    notifications.harvest = notifications.harvest.filter(n => n !== pondNum);
+                }
+            }
+        }
         loadHistory();
         loadFertilizerHistory();
         loadGrowingData();
