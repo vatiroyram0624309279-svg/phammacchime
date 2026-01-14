@@ -1553,20 +1553,10 @@ async function clearFertilizerHistory() {
             localStorage.setItem('growingStatus', JSON.stringify(growingStatus));
         }
 
-// ถ้าไม่มีกระบะไหนปลูกแล้ว ปิดออกซิเจน
-// ถ้าไม่มีกระบะไหนปลูกแล้ว ปิดออกซิเจน
-const anyPondActive = Object.values(growingStatus).some(s => s.active);
-if (!anyPondActive) {
-    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
-    const oxygenMode = document.getElementById('oxygen-mode-menu');
-    
-    oxygenToggle.classList.remove('active');
-    oxygenMode.textContent = 'ปิด';
-    sendToBlynk('V25', 1);
-}
 
 // อัพเดท UI การปลูก
 function updateGrowingUI(pondNum, isGrowing) {
+	console.log(`🌱 Update UI Pond ${pondNum}:`, isGrowing ? 'GROWING' : 'STOPPED');  // ← เพิ่ม
     const btn = document.getElementById(`grow-btn-${pondNum}`);
     const statusText = document.getElementById(`grow-status-${pondNum}`);
     const timerItem = document.getElementById(`timer-item-${pondNum}`);
@@ -1856,9 +1846,10 @@ async function fetchBlynkData() {
         console.error('Error fetching Blynk data:', error);
         
         // เข้าสู่โหมดทดสอบอัตโนมัติ
-        if (!demoMode) {
+if (!demoMode) {
             demoMode = true;
-            console.log('เข้าสู่โหมดทดสอบ (Demo Mode)');
+            console.log('⚠️ เข้าสู่โหมดทดสอบ (Demo Mode)');
+            alert('⚠️ ไม่สามารถเชื่อมต่อ Blynk ได้\n\nระบบจะทำงานในโหมดทดสอบ (ไม่สามารถควบคุมอุปกรณ์จริงได้)');
             document.getElementById('loading').innerHTML = 
                 '<div class="spinner"></div>ไม่สามารถเชื่อมต่อ Blynk<br><small>กำลังเข้าสู่โหมดทดสอบ...</small>';
             
@@ -1881,6 +1872,34 @@ async function fetchBlynkData() {
         }
     }
 }
+// ✅ เพิ่มฟังก์ชันใหม่ตรงนี้
+function syncInitialState(data) {
+    // Sync Light toggle
+    const lightManual = data.V24 == 1;
+    const lightToggle = document.getElementById('light-toggle-menu');
+    const lightMode = document.getElementById('light-mode-menu');
+    
+    if (lightToggle && lightMode) {
+        lightToggle.classList.toggle('active', lightManual);
+        lightMode.textContent = lightManual ? 'Manual' : 'Auto';
+    }
+    
+    // Sync Oxygen (เปิดถ้ามีกระบะปลูก)
+    const anyGrowing = Object.values(growingStatus).some(s => s.active);
+    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
+    const oxygenMode = document.getElementById('oxygen-mode-menu');
+    
+    if (oxygenToggle && oxygenMode) {
+        oxygenToggle.classList.toggle('active', anyGrowing);
+        oxygenMode.textContent = anyGrowing ? 'Auto' : 'ปิด';
+    }
+    
+    console.log('✅ Synced initial state:', {
+        lightManual,
+        anyGrowing,
+        growingStatus
+    });
+}
 
 function displayData(data) {
     document.getElementById('temp1').textContent = data.V5 !== undefined ? parseFloat(data.V5).toFixed(1) : '--';
@@ -1895,7 +1914,7 @@ function displayData(data) {
     
     // ✅ เพิ่มบรรทัดนี้
     updateLEDStatus(data);
-    
+    syncInitialState(data);  // ← เพิ่มบรรทัดนี้
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('sidebar').style.display = 'block';
@@ -1956,10 +1975,9 @@ function updateWaterStatus(pondNum, value) {
 
 function updatePumpButtonStatus(pondNum, hasWater) {
     const pumpItem = document.getElementById(`pump${pondNum}-toggle`).closest('.switch-item');
-    const isGrowing = growingStatus[pondNum].active;  // ✅ เพิ่มบรรทัดนี้
     
-    // ปั๊มทำงานได้ต่อเมื่อ: มีน้ำเต็ม AND กำลังปลูกอยู่
-    if (hasWater && isGrowing) {
+    // ✅ ปุ่มเก็บเกี่ยวทำงานได้เมื่อ: มีน้ำเท่านั้น (ไม่ต้องเช็คว่ากำลังปลูก)
+    if (hasWater) {
         pumpItem.classList.remove('disabled');
     } else {
         pumpItem.classList.add('disabled');
@@ -2018,41 +2036,67 @@ function getPumpPin(pondNum) {
             sendToBlynk('V25', !isActive ? 0 : 1);
         }
 
-        async function togglePump(pumpNum) {
-			if (emergencyStop) return;
+async function togglePump(pumpNum) {
+    if (emergencyStop) return;
     
-			// เช็คว่ามีน้ำและกำลังปลูกอยู่หรือไม่
-			if (!waterStatus[pumpNum] || !growingStatus[pumpNum].active) {
-				alert(`ไม่สามารถเก็บเกี่ยวได้\n${!waterStatus[pumpNum] ? '❌ น้ำไม่เต็ม' : ''}\n${!growingStatus[pumpNum].active ? '❌ ยังไม่ได้เริ่มปลูก' : ''}`);
-				return;
-			}
+    const toggle = document.getElementById(`pump${pumpNum}-toggle`);
+    const isActive = toggle.classList.contains('active');
+    const pumpItem = toggle.closest('.switch-item');
     
-			const toggle = document.getElementById(`pump${pumpNum}-toggle`);
-			const isActive = toggle.classList.contains('active');
+    // ตรวจสอบว่าปุ่มถูก disabled หรือไม่
+    if (pumpItem.classList.contains('disabled') && !isActive) {
+        alert(`❌ ไม่สามารถเก็บเกี่ยวได้\n\nกระบะที่ ${pumpNum} ไม่มีน้ำ`);
+        return;
+    }
     
-			syncControls('main', !isActive, `pump${pumpNum}`);
+    const pins = { 1: 'V12', 2: 'V11', 3: 'V10' };
     
-			const pins = { 1: 'V12', 2: 'V11', 3: 'V10' };
-			const success = await sendToBlynk(pins[pumpNum], !isActive ? 1 : 0);
-    
-			if (!isActive && success) {
-				addHarvestRecord(pumpNum);
+    if (!isActive) {
+        // === กดครั้งที่ 1: เปิดปั๊ม ===
+        console.log(`💧 Pump ${pumpNum}: เปิดปั๊มดูดน้ำ`);
         
-				// รีเซ็ตการปลูกเมื่อเก็บเกี่ยว
-				if (growingStatus[pumpNum].active) {
-					growingStatus[pumpNum].active = false;
-					growingStatus[pumpNum].startTime = null;
-					growingStatus[pumpNum].minutes = 0;
-					growingStatus[pumpNum].harvestTime = Date.now();
-					updateGrowingUI(pumpNum, false);
-					saveGrowingData();
+        syncControls('main', true, `pump${pumpNum}`);
+        await sendToBlynk(pins[pumpNum], 1);
+        
+    } else {
+        // === กดครั้งที่ 2: ปิดปั๊ม + สิ้นสุดการปลูก ===
+        console.log(`💧 Pump ${pumpNum}: ปิดปั๊ม + สิ้นสุดการปลูก`);
+        
+        syncControls('main', false, `pump${pumpNum}`);
+        const success = await sendToBlynk(pins[pumpNum], 0);
+        
+        if (success) {
+            // บันทึกประวัติการเก็บ
+            addHarvestRecord(pumpNum);
             
-					notifications.harvest = notifications.harvest.filter(n => n !== pumpNum);
+            // รีเซ็ตการปลูก
+            if (growingStatus[pumpNum].active) {
+                growingStatus[pumpNum].active = false;
+                growingStatus[pumpNum].startTime = null;
+                growingStatus[pumpNum].minutes = 0;
+                growingStatus[pumpNum].harvestTime = Date.now();
+                updateGrowingUI(pumpNum, false);
+                saveGrowingData();
+                
+                // ลบการแจ้งเตือนเก็บเกี่ยวของกระบะนี้
+                notifications.harvest = notifications.harvest.filter(n => n !== pumpNum);
+            }
             
+            // ✅ ปิดออกซิเจนถ้าไม่มีกระบะไหนปลูกอยู่
+            const anyPondActive = Object.values(growingStatus).some(s => s.active);
+            if (!anyPondActive) {
+                const oxygenToggle = document.getElementById('oxygen-toggle-menu');
+                const oxygenMode = document.getElementById('oxygen-mode-menu');
+                if (oxygenToggle && oxygenMode) {
+                    oxygenToggle.classList.remove('active');
+                    oxygenMode.textContent = 'ปิด';
+                    sendToBlynk('V25', 1);
+                }
+            }
+        }
+    }
+}
 
-				}
-			}
-		}
 // ฟังก์ชันเริ่ม/หยุดการปลูก
         async function toggleGrowing(pondNum) {
             if (emergencyStop) return;
@@ -2075,14 +2119,14 @@ if (!isCurrentlyGrowing) {
                     updateGrowingUI(pondNum, true);
                     saveGrowingData();
                     
-                    // เปิดออกซิเจนอัตโนมัติถ้ามีกระบะใดกระบะหนึ่งปลูกอยู่
-                    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
-                    if (!oxygenToggle.classList.contains('active')) {
-                        oxygenToggle.classList.add('active');
-                        document.getElementById('oxygen-mode-menu').textContent = 'Auto';
-                        sendToBlynk('V25', 0);
-                    }
-                    
+// ✅ เปิดออกซิเจนทันทีเมื่อเริ่มปลูก
+const oxygenToggle = document.getElementById('oxygen-toggle-menu');
+const oxygenMode = document.getElementById('oxygen-mode-menu');
+if (oxygenToggle && oxygenMode) {
+    oxygenToggle.classList.add('active');
+    oxygenMode.textContent = 'Auto';
+    sendToBlynk('V25', 0);
+}
                     // ส่งสัญญาณไปยัง Blynk
                     const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
                     await sendToBlynk(growPins[pondNum], 1);
@@ -2103,13 +2147,16 @@ if (!isCurrentlyGrowing) {
                     updateGrowingUI(pondNum, false);
                     saveGrowingData();
                     
-                    // ถ้าไม่มีกระบะไหนปลูกอยู่เลย ปิดออกซิเจน
+// ถ้าไม่มีกระบะไหนปลูกอยู่เลย ปิดออกซิเจน
                     const anyPondActive = Object.values(growingStatus).some(s => s.active);
                     if (!anyPondActive) {
                         const oxygenToggle = document.getElementById('oxygen-toggle-menu');
-                        oxygenToggle.classList.remove('active');
-                        document.getElementById('oxygen-mode-menu').textContent = 'ปิด';
-                        sendToBlynk('V25', 1);
+                        const oxygenMode = document.getElementById('oxygen-mode-menu');
+                        if (oxygenToggle && oxygenMode) {
+                            oxygenToggle.classList.remove('active');
+                            oxygenMode.textContent = 'ปิด';
+                            sendToBlynk('V25', 1);
+                        }
                     }
                     
                     // ส่งสัญญาณไปยัง Blynk
@@ -2121,10 +2168,10 @@ if (!isCurrentlyGrowing) {
                 }
             }
         }
-        loadHistory();
-        loadFertilizerHistory();
-        loadGrowingData();
-        updateTime();
+loadGrowingData();  // ← ย้ายมาก่อน
+loadHistory();
+loadFertilizerHistory();
+updateTime();
         setInterval(updateTime, 1000);
         setInterval(updateGrowingTimers, 1000); // อัพเดททุก 1 วินาที
         setInterval(checkNotifications, 60000); // ตรวจสอบการแจ้งเตือนทุก 1 นาที
