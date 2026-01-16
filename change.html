@@ -1375,7 +1375,7 @@ body.dark-mode .settings-content {
                             <div class="switch-pin"><span id="oxygen-mode-menu">Auto</span></div>
                         </div>
                     </div>
-                    <div class="toggle oxygen" id="oxygen-toggle-menu" onclick="toggleOxygenMenu()" style="cursor: pointer;">
+                    <div class="toggle oxygen active" id="oxygen-toggle-menu" onclick="toggleOxygenMenu()" style="cursor: pointer;">
                         <div class="toggle-thumb"></div>
                     </div>
                 </div>
@@ -1473,11 +1473,16 @@ body.dark-mode .settings-content {
                                 <span style="color: #2E7D32; font-weight: 600; margin-left: 4px;">วัน</span>
                             </div>
                             <div class="settings-option" style="background: white;">
-                                <span class="settings-option-label">🕐 เวลา</span>
-                                <input type="time" id="harvest-time" value="12:00" 
-                                       onchange="updateHarvestTime(this.value)" 
-                                       onclick="event.stopPropagation();"
-                                       style="padding: 6px 10px; border: 2px solid #4CAF50; border-radius: 8px; font-weight: 600; color: #2E7D32; font-size: 14px;">
+<span class="settings-option-label">🕐 เวลา (24 ชม.)</span>  <!-- เพิ่ม (24 ชม.) -->
+<!-- ✅ ถูกต้อง -->
+<input type="text" id="harvest-time" value="12:00" 
+    pattern="[0-2][0-9]:[0-5][0-9]"
+    placeholder="เช่น 14:30"
+    maxlength="5"
+    onchange="updateHarvestTime(this.value)" 
+    onclick="event.stopPropagation();"
+    oninput="formatTime(this)"
+    style="padding: 6px 10px; border: 2px solid #4CAF50; border-radius: 8px; font-weight: 600; color: #2E7D32; font-size: 14px; width: 100px; text-align: center;">
                             </div>
                             <div style="margin-top: 8px; padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; font-size: 11px; color: #2E7D32;">
                                 💡 เช่น: วันที่ <strong>7</strong> เวลา <strong>12:00</strong> = เก็บเกี่ยววันที่ 7 เวลา 12:00 น.
@@ -1493,17 +1498,21 @@ body.dark-mode .settings-content {
                             <div class="settings-option" style="background: white; margin-bottom: 8px;">
                                 <span class="settings-option-label">📅 วันที่</span>
                                 <input type="number" id="fertilizer-days" min="1" max="30" value="7" 
-                                       onchange="updateFertilizerDays(this.value)" 
-                                       onclick="event.stopPropagation();"
-                                       style="width: 60px; padding: 6px 10px; border: 2px solid #FF9800; border-radius: 8px; text-align: center; font-weight: 600; color: #E65100; font-size: 14px;">
+									onchange="updateFertilizerDays(this.value)" 
+									onclick="event.stopPropagation();"
+									style="width: 60px; padding: 6px 10px; border: 2px solid #FF9800; border-radius: 8px; text-align: center; font-weight: 600; color: #E65100; font-size: 14px;">
                                 <span style="color: #E65100; font-weight: 600; margin-left: 4px;">วัน</span>
                             </div>
                             <div class="settings-option" style="background: white;">
-                                <span class="settings-option-label">🕐 เวลา</span>
-                                <input type="time" id="fertilizer-time" value="12:00" 
-                                       onchange="updateFertilizerTime(this.value)" 
-                                       onclick="event.stopPropagation();"
-                                       style="padding: 6px 10px; border: 2px solid #FF9800; border-radius: 8px; font-weight: 600; color: #E65100; font-size: 14px;">
+<span class="settings-option-label">🕐 เวลา (24 ชม.)</span>  <!-- เพิ่ม (24 ชม.) -->
+<input type="text" id="fertilizer-time" value="12:00" 
+    pattern="[0-2][0-9]:[0-5][0-9]"
+    placeholder="เช่น 14:30"
+    maxlength="5"
+    onchange="updateFertilizerTime(this.value)" 
+    onclick="event.stopPropagation();"
+    oninput="formatTime(this)"
+    style="padding: 6px 10px; border: 2px solid #FF9800; border-radius: 8px; font-weight: 600; color: #E65100; font-size: 14px; width: 100px; text-align: center;">
                             </div>
                             <div style="margin-top: 8px; padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; font-size: 11px; color: #E65100;">
                                 💡 เช่น: วันที่ <strong>7</strong> เวลา <strong>14:30</strong> = ใส่ปุ๋ยวันที่ 7 เวลา 14:30 น.
@@ -2038,6 +2047,25 @@ body.dark-mode .settings-content {
             saveTimeSettings();
             console.log(`🕐 ตั้งค่าเวลาใส่ปุ๋ย: ${value} น.`);
         }
+		// ฟอร์แมตเวลาให้เป็น 24 ชม. (HH:MM)
+function formatTime(input) {
+    let value = input.value.replace(/[^0-9]/g, ''); // เอาแต่ตัวเลข
+    
+    if (value.length >= 2) {
+        let hours = value.slice(0, 2);
+        let minutes = value.slice(2, 4);
+        
+        // จำกัดชั่วโมง 00-23
+        if (parseInt(hours) > 23) hours = '23';
+        
+        // จำกัดนาที 00-59
+        if (minutes && parseInt(minutes) > 59) minutes = '59';
+        
+        value = hours + (minutes ? ':' + minutes : '');
+    }
+    
+    input.value = value;
+}
 
         // เล่นเสียงแจ้งเตือน
         function playNotificationSound() {
@@ -2485,13 +2513,14 @@ function loadNotificationState() {
                 
                 menuToggle.classList.toggle('active', isActive);
                 menuMode.textContent = isActive ? 'Manual' : 'Auto';
-            } else if (type === 'oxygen') {
-                const menuToggle = document.getElementById('oxygen-toggle-menu');
-                const menuMode = document.getElementById('oxygen-mode-menu');
-                
-                menuToggle.classList.toggle('active', isActive);
-                menuMode.textContent = isActive ? 'Auto' : 'ปิด';
-            } else if (type.startsWith('pump')) {
+} else if (type === 'oxygen') {
+    const menuToggle = document.getElementById('oxygen-toggle-menu');
+    const menuMode = document.getElementById('oxygen-mode-menu');
+    
+    menuToggle.classList.toggle('active', isActive);
+    menuMode.textContent = isActive ? 'เปิด' : 'ปิด';  // ← แก้เป็น "เปิด/ปิด"
+}
+		else if (type.startsWith('pump')) {
                 const pumpNum = type.replace('pump', '');
                 const mainToggle = document.getElementById(`pump${pumpNum}-toggle`);
                 const mainMode = document.getElementById(`pump${pumpNum}-mode`);
@@ -2530,15 +2559,15 @@ function loadNotificationState() {
             toggle.classList.toggle('active');
             const newState = !isCurrentlyActive;
             
-            if (newState) {
-                menuMode.textContent = 'Manual';
-                sendToBlynk('V25', 1);
-            } else {
-                menuMode.textContent = 'Auto';
-                sendToBlynk('V25', 0);
-            }
-            
-            console.log('💨 ออกซิเจน:', newState ? 'Manual ON' : 'Auto');
+if (newState) {
+    menuMode.textContent = 'เปิด';  // ← เปลี่ยนเป็น "เปิด"
+    sendToBlynk('V25', 1);
+    console.log('💨 ออกซิเจน: บังคับเปิด');  // ← ข้อความใหม่
+} else {
+    menuMode.textContent = 'ปิด';   // ← เปลี่ยนเป็น "ปิด"
+    sendToBlynk('V25', 0);
+    console.log('💨 ออกซิเจน: ปิด');  // ← ข้อความใหม่
+}
         }
 
         const demoData = {
@@ -2719,10 +2748,10 @@ function loadNotificationState() {
             const oxygenToggle = document.getElementById('oxygen-toggle-menu');
             const oxygenMode = document.getElementById('oxygen-mode-menu');
             
-            if (oxygenToggle && oxygenMode) {
-                oxygenToggle.classList.toggle('active', oxygenOn);
-                oxygenMode.textContent = oxygenOn ? 'Manual' : 'Auto';
-            }
+if (oxygenToggle && oxygenMode) {
+    oxygenToggle.classList.toggle('active', oxygenOn);
+    oxygenMode.textContent = oxygenOn ? 'เปิด' : 'ปิด';  // ← เปลี่ยนข้อความ
+}
             
             console.log('✅ Synced initial state:', {
                 lightManual,
@@ -2839,7 +2868,7 @@ function loadNotificationState() {
             }
         }
 
-        async function togglePump(pumpNum) {
+async function togglePump(pumpNum) {
             if (emergencyStop) return;
             
             const toggle = document.getElementById(`pump${pumpNum}-toggle`);
@@ -2871,8 +2900,15 @@ function loadNotificationState() {
                 );
                 
                 if (confirmed) {
+                    // ปิด UI ก่อน
                     syncControls('main', false, `pump${pumpNum}`);
+                    
+                    // ส่งคำสั่งปิดปั๊มไปที่ Arduino (สำคัญมาก!)
                     const success = await sendToBlynk(pins[pumpNum], 0);
+                    console.log(`📤 ส่งคำสั่งปิดปั๊ม ${pumpNum} (${pins[pumpNum]} = 0):`, success ? '✅' : '❌');
+                    
+                    // รอให้ Arduino รับคำสั่ง
+                    await new Promise(resolve => setTimeout(resolve, 500));
                     
                     if (success) {
                         addHarvestRecord(pumpNum);
@@ -2891,20 +2927,27 @@ function loadNotificationState() {
                             console.log(`🛑 หยุดเซนเซอร์กระบะที่ ${pumpNum} (เก็บเกี่ยวสำเร็จ)`);
                             
                             notifications.harvest = notifications.harvest.filter(n => n !== pumpNum);
-							saveNotificationState();
+                            saveNotificationState();
                         }
                         
                         const anyPondActive = Object.values(growingStatus).some(s => s.active);
                         if (!anyPondActive) {
                             const oxygenToggle = document.getElementById('oxygen-toggle-menu');
                             const oxygenMode = document.getElementById('oxygen-mode-menu');
-                            if (oxygenToggle && oxygenMode) {
-                                oxygenToggle.classList.remove('active');
-                                oxygenMode.textContent = 'ปิด';
-                                sendToBlynk('V25', 1);
-                                console.log('💨 ออกซิเจน: ปิดอัตโนมัติ');
-                            }
+if (oxygenToggle && oxygenMode) {
+    oxygenToggle.classList.remove('active');
+    oxygenMode.textContent = 'ปิด';  // ← เปลี่ยนเป็น "ปิด"
+    sendToBlynk('V25', 0);
+    console.log('💨 ออกซิเจน: ปิดอัตโนมัติ');
+}
                         }
+                    } else {
+                        console.error('❌ ไม่สามารถส่งคำสั่งปิดปั๊มได้');
+                        alert('⚠️ เกิดข้อผิดพลาด\n\nไม่สามารถส่งคำสั่งปิดปั๊มได้\nกรุณาลองอีกครั้ง');
+                        // คืนค่า UI กลับ
+                        toggle.classList.add('active');
+                        const mode = document.getElementById(`pump${pumpNum}-mode`);
+                        mode.textContent = 'บังคับเปิด';
                     }
                 } else {
                     toggle.classList.add('active');
@@ -2913,76 +2956,59 @@ function loadNotificationState() {
                 }
             }
         }
-
-        async function toggleGrowing(pondNum) {
-            if (emergencyStop) return;
+// ฟังก์ชันเริ่มปลูก/หยุดปลูก
+async function toggleGrowing(pondNum) {
+    const status = growingStatus[pondNum];
+    
+    if (!status.active) {
+        // เริ่มปลูก
+        const confirmed = await showConfirm(
+            '🌱 เริ่มการปลูก',
+            `คุณต้องการเริ่มปลูกในกระบะที่ ${pondNum} ใช่หรือไม่?`,
+            { icon: '🌱', type: 'normal' }
+        );
+        
+        if (confirmed) {
+            status.active = true;
+            status.startTime = Date.now();
+            status.minutes = 0;
             
-            const isCurrentlyGrowing = growingStatus[pondNum].active;
+            updateGrowingUI(pondNum, true);
+            saveGrowingData();
             
-            if (!isCurrentlyGrowing) {
-                const confirmed = await showConfirm(
-                    '🌱 เริ่มการปลูก',
-                    `ต้องการเริ่มปลูกในกระบะที่ ${pondNum} ใช่หรือไม่?\n\nระบบจะเปิดใช้งาน: เซนเซอร์น้ำ, ไฟ, ออกซิเจน`,
-                    { icon: '🌱', type: 'normal' }
-                );
-                
-                if (confirmed) {
-                    growingStatus[pondNum].active = true;
-                    growingStatus[pondNum].startTime = Date.now();
-                    growingStatus[pondNum].minutes = 0;
-                    
-                    updateGrowingUI(pondNum, true);
-                    saveGrowingData();
-                    
-                    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
-                    const oxygenMode = document.getElementById('oxygen-mode-menu');
-                    if (oxygenToggle && oxygenMode && !oxygenToggle.classList.contains('active')) {
-                        oxygenToggle.classList.add('active');
-                        oxygenMode.textContent = 'Manual';
-                        sendToBlynk('V25', 1);
-                        console.log('💨 ออกซิเจน: เปิดอัตโนมัติ (Manual ON)');
-                    }
-                    
-                    const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
-                    await sendToBlynk(growPins[pondNum], 1);
-                    console.log(`✅ เริ่มปลูกกระบะที่ ${pondNum} - เซนเซอร์และไฟเริ่มทำงาน`);
-                }
-            } else {
-                const confirmed = await showConfirm(
-                    '⚠️ หยุดการปลูก',
-                    `ต้องการหยุดการปลูกในกระบะที่ ${pondNum} ใช่หรือไม่?\n\nเซนเซอร์และไฟจะหยุดทำงาน`,
-                    { icon: '⚠️', type: 'warning', confirmType: 'danger' }
-                );
-                
-                if (confirmed) {
-                    growingStatus[pondNum].active = false;
-                    growingStatus[pondNum].startTime = null;
-                    growingStatus[pondNum].minutes = 0;
-                    
-                    updateGrowingUI(pondNum, false);
-                    saveGrowingData();
-                    
-                    const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
-                    await sendToBlynk(growPins[pondNum], 0);
-                    console.log(`🛑 หยุดปลูกกระบะที่ ${pondNum} - เซนเซอร์และไฟหยุดทำงาน`);
-                    
-                    const anyPondActive = Object.values(growingStatus).some(s => s.active);
-                    if (!anyPondActive) {
-                        const oxygenToggle = document.getElementById('oxygen-toggle-menu');
-                        const oxygenMode = document.getElementById('oxygen-mode-menu');
-                        if (oxygenToggle && oxygenMode) {
-                            oxygenToggle.classList.remove('active');
-                            oxygenMode.textContent = 'Auto';
-                            sendToBlynk('V25', 0);
-                            console.log('💨 ออกซิเจน: ปิดอัตโนมัติ (ไม่มีกระบะปลูก)');
-                        }
-                    }
-                    
-                    notifications.harvest = notifications.harvest.filter(n => n !== pondNum);
-                }
-            }
+            const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+            await sendToBlynk(growPins[pondNum], 1);
+            
+            console.log(`🌱 เริ่มปลูกกระบะที่ ${pondNum}`);
+            console.log(`📤 ส่งคำสั่งเริ่มปลูก: ${growPins[pondNum]} = 1`);
         }
-
+    } else {
+        // หยุดปลูก
+        const confirmed = await showConfirm(
+            '⚠️ หยุดการปลูก',
+            `คุณต้องการหยุดปลูกกระบะที่ ${pondNum} ใช่หรือไม่?\n\n⚠️ ข้อมูลการปลูกจะไม่ถูกบันทึก`,
+            { icon: '⚠️', type: 'warning', confirmType: 'danger' }
+        );
+        
+        if (confirmed) {
+            status.active = false;
+            status.startTime = null;
+            status.minutes = 0;
+            
+            updateGrowingUI(pondNum, false);
+            saveGrowingData();
+            
+            const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+            await sendToBlynk(growPins[pondNum], 0);
+            
+            console.log(`🛑 หยุดปลูกกระบะที่ ${pondNum}`);
+            
+            // ลบการแจ้งเตือนที่เกี่ยวข้อง
+            notifications.harvest = notifications.harvest.filter(n => n !== pondNum);
+            saveNotificationState();
+        }
+    }
+}
 // โหลดข้อมูลก่อนเริ่มระบบ
 loadDarkMode(); 
 loadGrowingData();
