@@ -1885,10 +1885,12 @@ body.dark-mode .settings-content {
             2: { active: false, startTime: null, minutes: 0, harvestTime: null },
             3: { active: false, startTime: null, minutes: 0, harvestTime: null }
         };
-        let notifications = {
-            harvest: [],
-            fertilizer: []
-        };
+let notifications = {
+    harvest: [],           // เก็บ pondNum ที่แจ้งไปแล้ว
+    fertilizer: [],        // เก็บ { pondNum, time }
+    harvestNotified: {},   // เก็บ { pondNum: startTime } ว่าแจ้งไปแล้ว
+    fertilizerNotified: {} // เก็บ { pondNum: startTime } ว่าแจ้งไปแล้ว
+};
         let darkMode = false;
 		let currentTemperatures = {
 		1: null,
@@ -2041,28 +2043,7 @@ let timeSettings = {
         }
 
 // ฟังก์ชันอัพเดทข้อความตัวอย่าง
-function updateExampleText() {
-    const harvestDays = document.getElementById('harvest-days');
-    const harvestTime = document.getElementById('harvest-time');
-    const fertilizerDays = document.getElementById('fertilizer-days');
-    const fertilizerTime = document.getElementById('fertilizer-time');
-    
-    const harvestExampleText = document.getElementById('harvest-example-text');
-    const fertilizerExampleText = document.getElementById('fertilizer-example-text');
-    
-    // เช็คว่า elements โหลดเสร็จแล้วหรือยัง
-    if (!harvestDays || !harvestTime || 
-        !fertilizerDays || !fertilizerTime ||
-        !harvestExampleText || !fertilizerExampleText) {
-        return;
-    }
-    
-    harvestExampleText.textContent = 
-        `${harvestDays.value} วัน เวลา ${harvestTime.value} น.`;
-    
-    fertilizerExampleText.textContent = 
-        `${fertilizerDays.value} วัน เวลา ${fertilizerTime.value} น.`;
-}
+
 
 // โหลดการตั้งค่าระยะเวลา (แก้ไขใหม่)
 function loadTimeSettings() {
@@ -2088,43 +2069,42 @@ function loadTimeSettings() {
     updateExampleText();
 }
 function saveTimeSettings() {
-    // แปลงเวลาจาก HH:MM เป็น Hours และ Minutes สำหรับการคำนวณ
-    const [harvestHours, harvestMinutes] = timeSettings.harvestTime.split(':').map(Number);
-    const [fertilizerHours, fertilizerMinutes] = timeSettings.fertilizerTime.split(':').map(Number);
-    
-    timeSettings.harvestHours = harvestHours;
-    timeSettings.harvestMinutes = harvestMinutes;
-    timeSettings.fertilizerHours = fertilizerHours;
-    timeSettings.fertilizerMinutes = fertilizerMinutes;
-    
     localStorage.setItem('timeSettings', JSON.stringify(timeSettings));
     console.log('✅ บันทึกการตั้งค่าระยะเวลา:', timeSettings);
+    
+    // ✅ อัพเดทข้อความตัวอย่างทันทีหลังบันทึก
+    updateExampleText();
 }
 
 // ฟังก์ชันอัพเดทข้อความตัวอย่าง
+// ฟังก์ชันอัพเดทข้อความตัวอย่าง (เวอร์ชันสุดท้าย)
 function updateExampleText() {
     const harvestDays = document.getElementById('harvest-days');
-    const harvestHours = document.getElementById('harvest-hours');
-    const harvestMinutes = document.getElementById('harvest-minutes');
+    const harvestTime = document.getElementById('harvest-time');
     const fertilizerDays = document.getElementById('fertilizer-days');
-    const fertilizerHours = document.getElementById('fertilizer-hours');
-    const fertilizerMinutes = document.getElementById('fertilizer-minutes');
+    const fertilizerTime = document.getElementById('fertilizer-time');
     
     const harvestExampleText = document.getElementById('harvest-example-text');
     const fertilizerExampleText = document.getElementById('fertilizer-example-text');
     
-    // ✅ เช็คว่า elements โหลดเสร็จแล้วหรือยัง
-    if (!harvestDays || !harvestHours || !harvestMinutes || 
-        !fertilizerDays || !fertilizerHours || !fertilizerMinutes ||
+    // เช็คว่า elements โหลดเสร็จแล้วหรือยัง
+    if (!harvestDays || !harvestTime || 
+        !fertilizerDays || !fertilizerTime ||
         !harvestExampleText || !fertilizerExampleText) {
-        return; // ถ้ายังไม่โหลดเสร็จ ให้ข้ามไป
+        return;
     }
     
+    // ✅ อัพเดทข้อความตัวอย่างตามค่าที่เลือก
     harvestExampleText.textContent = 
-        `${harvestDays.value} วัน ${harvestHours.value} ชม. ${harvestMinutes.value} นาที`;
+        `${harvestDays.value} วัน เวลา ${harvestTime.value} น.`;
     
     fertilizerExampleText.textContent = 
-        `${fertilizerDays.value} วัน ${fertilizerHours.value} ชม. ${fertilizerMinutes.value} นาที`;
+        `${fertilizerDays.value} วัน เวลา ${fertilizerTime.value} น.`;
+    
+    console.log('📝 อัพเดทตัวอย่าง:', {
+        harvest: `${harvestDays.value} วัน ${harvestTime.value}`,
+        fertilizer: `${fertilizerDays.value} วัน ${fertilizerTime.value}`
+    });
 }
 
 // โหลดการตั้งค่าระยะเวลา
@@ -2554,26 +2534,16 @@ function closeAlert(alertId, type, pondNum) {
     }
     
     if (type === 'fertilizer') {
-        // ✅ บันทึกประวัติ
         addFertilizerRecord(pondNum);
-        
-        // ✅ ลบ notification
         notifications.fertilizer = notifications.fertilizer.filter(n => n.pondNum !== pondNum);
-        
-        // ✅ บันทึกสถานะ
         saveNotificationState();
-        
-        // ✅ อัพเดท badge
         updateFertilizerBadge();
-        
         console.log(`✅ ปิดแจ้งเตือนใส่ปุ๋ยกระบะ ${pondNum}`);
     }
     
     if (type === 'harvest') {
-        // ✅ ลบ notification harvest (ถ้ามี)
         notifications.harvest = notifications.harvest.filter(n => n !== pondNum);
         saveNotificationState();
-        
         console.log(`✅ ปิดแจ้งเตือนเก็บเกี่ยวกระบะ ${pondNum}`);
     }
 }
@@ -2588,113 +2558,105 @@ function closeAlert(alertId, type, pondNum) {
             }
         }
 
-// ตรวจสอบการแจ้งเตือน
-// ตรวจสอบการแจ้งเตือน
-// ตรวจสอบการแจ้งเตือน
-// แทนที่ฟังก์ชัน checkNotifications() เดิมทั้งหมดด้วยโค้ดนี้
-// ตรวจสอบการแจ้งเตือน
-// ตรวจสอบการแจ้งเตือน (แก้ไขให้ใช้เวลาจริง)
-// ตรวจสอบการแจ้งเตือน
 function checkNotifications() {
     const now = Date.now();
     
     for (let i = 1; i <= 3; i++) {
         const status = growingStatus[i];
         
-        // ===============================
-        // 🌱 เช็คเวลาเก็บเกี่ยว
-        // ===============================
-        if (status.active && status.startTime) {
-            const startDate = new Date(status.startTime);
-            
-            // สร้างวันที่เป้าหมาย = วันที่เริ่มปลูก + จำนวนวัน
-            const harvestDate = new Date(startDate);
-            harvestDate.setDate(harvestDate.getDate() + timeSettings.harvestDays);
-            
-            // ตั้งเวลาเป็นเวลาที่กำหนด
-            const [harvestHours, harvestMinutes] = timeSettings.harvestTime.split(':').map(Number);
-            harvestDate.setHours(harvestHours);
-            harvestDate.setMinutes(harvestMinutes);
-            harvestDate.setSeconds(0);
-            harvestDate.setMilliseconds(0);
-            
-            const harvestTime = harvestDate.getTime();
-            
-            // เช็คว่าถึงเวลาแล้วหรือยัง + ยังไม่เคยแจ้งเตือน
-            const shouldNotify = now >= harvestTime && 
-                               !notifications.harvest.includes(i);
-            
-            if (shouldNotify) {
-                const elapsed = now - status.startTime;
-                const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
-                const hours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                const minutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
-                
-                console.log(`🔔 [เก็บเกี่ยว] กระบะที่ ${i} ถึงเวลาแล้ว!`, {
-                    เริ่มปลูก: startDate.toLocaleString('th-TH'),
-                    เป้าหมาย: harvestDate.toLocaleString('th-TH'),
-                    ปลูกมา: `${days} วัน ${hours}:${String(minutes).padStart(2, '0')}`
-                });
-                
-                showAlert('harvest', i, 
-                    `กระบะที่ ${i} ปลูกมา ${days} วัน ${hours}:${String(minutes).padStart(2, '0')} น. แล้ว\n` +
-                    `(ตั้งค่า ${timeSettings.harvestDays} วัน เวลา ${timeSettings.harvestTime} น.)`
-                );
-                
-                // บันทึกว่าแจ้งเตือนไปแล้ว
-                notifications.harvest.push(i);
-                saveNotificationState();
-            }
+        // เช็คว่ากำลังปลูกอยู่หรือไม่
+        if (!status.active || !status.startTime) {
+            continue;
         }
         
         // ===============================
-        // 🌾 เช็คเวลาใส่ปุ๋ย (นับจากวันที่ปลูก)
+        // 🌱 เช็คเวลาเก็บเกี่ยว
         // ===============================
-        if (status.active && status.startTime) {
-            const startDate = new Date(status.startTime);
+        const startDate = new Date(status.startTime);
+        
+        // คำนวณเวลาเก็บเกี่ยว
+        const harvestDate = new Date(startDate);
+        harvestDate.setDate(harvestDate.getDate() + timeSettings.harvestDays);
+        
+        const [harvestHours, harvestMinutes] = timeSettings.harvestTime.split(':').map(Number);
+        harvestDate.setHours(harvestHours);
+        harvestDate.setMinutes(harvestMinutes);
+        harvestDate.setSeconds(0);
+        harvestDate.setMilliseconds(0);
+        
+        const harvestTime = harvestDate.getTime();
+        
+        // เช็คว่าเคยแจ้งไปแล้วหรือยัง
+        const alreadyNotifiedHarvest = notifications.harvestNotified[i] === status.startTime;
+        const shouldNotifyHarvest = now >= harvestTime && !alreadyNotifiedHarvest;
+        
+        // 🔔 แจ้งเตือนเก็บเกี่ยว
+        if (shouldNotifyHarvest) {
+            const elapsed = now - status.startTime;
+            const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
+            const hours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+            const minutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
             
-            // สร้างวันที่เป้าหมาย = วันที่เริ่มปลูก + จำนวนวัน
-            const fertilizerDate = new Date(startDate);
-            fertilizerDate.setDate(fertilizerDate.getDate() + timeSettings.fertilizerDays);
+            console.log(`🔔 [เก็บเกี่ยว] กระบะที่ ${i} ถึงเวลาแล้ว!`, {
+                startTime: new Date(status.startTime).toLocaleString('th-TH'),
+                harvestTime: new Date(harvestTime).toLocaleString('th-TH'),
+                now: new Date(now).toLocaleString('th-TH')
+            });
             
-            // ตั้งเวลาเป็นเวลาที่กำหนด
-            const [fertilizerHours, fertilizerMinutes] = timeSettings.fertilizerTime.split(':').map(Number);
-            fertilizerDate.setHours(fertilizerHours);
-            fertilizerDate.setMinutes(fertilizerMinutes);
-            fertilizerDate.setSeconds(0);
-            fertilizerDate.setMilliseconds(0);
+            showAlert('harvest', i, 
+                `กระบะที่ ${i} ปลูกมา ${days} วัน ${hours}:${String(minutes).padStart(2, '0')} น. แล้ว\n` +
+                `(ตั้งค่า ${timeSettings.harvestDays} วัน เวลา ${timeSettings.harvestTime} น.)`
+            );
             
-            const fertilizerTime = fertilizerDate.getTime();
-            
-            // เช็คว่าแจ้งเตือนไปแล้วหรือยัง
-            const alreadyNotified = notifications.fertilizer.some(n => n.pondNum === i);
-            const shouldNotify = now >= fertilizerTime && !alreadyNotified;
-            
-            if (shouldNotify) {
-                const elapsed = now - status.startTime;
-                const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
-                const hours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                const minutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
-                
-                console.log(`🔔 [ใส่ปุ๋ย] กระบะที่ ${i} ถึงเวลาแล้ว!`, {
-                    เริ่มปลูก: startDate.toLocaleString('th-TH'),
-                    เป้าหมาย: fertilizerDate.toLocaleString('th-TH'),
-                    ปลูกมา: `${days} วัน ${hours}:${String(minutes).padStart(2, '0')}`
-                });
-                
-                showAlert('fertilizer', i, 
-                    `กระบะที่ ${i} ปลูกมา ${days} วัน ${hours}:${String(minutes).padStart(2, '0')} น. แล้ว\n` +
-                    `(ตั้งค่า ${timeSettings.fertilizerDays} วัน เวลา ${timeSettings.fertilizerTime} น.)`
-                );
-                
-                // บันทึกว่าแจ้งเตือนไปแล้ว
-                notifications.fertilizer.push({
-                    pondNum: i,
-                    time: now
-                });
-                saveNotificationState();
-                updateFertilizerBadge();
+            if (!notifications.harvest.includes(i)) {
+                notifications.harvest.push(i);
             }
+            notifications.harvestNotified[i] = status.startTime;
+            saveNotificationState();
+        }
+        
+        // ===============================
+        // 🌾 เช็คเวลาใส่ปุ๋ย
+        // ===============================
+        const fertilizerDate = new Date(startDate);
+        fertilizerDate.setDate(fertilizerDate.getDate() + timeSettings.fertilizerDays);
+        
+        const [fertilizerHours, fertilizerMinutes] = timeSettings.fertilizerTime.split(':').map(Number);
+        fertilizerDate.setHours(fertilizerHours);
+        fertilizerDate.setMinutes(fertilizerMinutes);
+        fertilizerDate.setSeconds(0);
+        fertilizerDate.setMilliseconds(0);
+        
+        const fertilizerTime = fertilizerDate.getTime();
+        
+        const alreadyNotifiedFertilizer = notifications.fertilizerNotified[i] === status.startTime;
+        const shouldNotifyFertilizer = now >= fertilizerTime && !alreadyNotifiedFertilizer;
+        
+        // 🔔 แจ้งเตือนใส่ปุ๋ย
+        if (shouldNotifyFertilizer) {
+            const elapsed = now - status.startTime;
+            const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
+            const hours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+            const minutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
+            
+            console.log(`🔔 [ใส่ปุ๋ย] กระบะที่ ${i} ถึงเวลาแล้ว!`, {
+                startTime: new Date(status.startTime).toLocaleString('th-TH'),
+                fertilizerTime: new Date(fertilizerTime).toLocaleString('th-TH'),
+                now: new Date(now).toLocaleString('th-TH')
+            });
+            
+            showAlert('fertilizer', i, 
+                `กระบะที่ ${i} ปลูกมา ${days} วัน ${hours}:${String(minutes).padStart(2, '0')} น. แล้ว\n` +
+                `(ตั้งค่า ${timeSettings.fertilizerDays} วัน เวลา ${timeSettings.fertilizerTime} น.)`
+            );
+            
+            const alreadyInList = notifications.fertilizer.some(f => f.pondNum === i);
+            if (!alreadyInList) {
+                notifications.fertilizer.push({ pondNum: i, time: now });
+            }
+            notifications.fertilizerNotified[i] = status.startTime;
+            saveNotificationState();
+            updateFertilizerBadge();
         }
     }
 }
@@ -2710,14 +2672,20 @@ function saveNotificationState() {
     console.log('💾 บันทึกสถานะการแจ้งเตือน:', {
         harvest: notifications.harvest,
         fertilizer: notifications.fertilizer.map(f => f.pondNum),
-        total: notifications.harvest.length + notifications.fertilizer.length
+        harvestNotified: notifications.harvestNotified,
+        fertilizerNotified: notifications.fertilizerNotified
     });
 }
-
 function loadNotificationState() {
     const saved = localStorage.getItem('notificationState');
     if (saved) {
-        notifications = JSON.parse(saved);
+        const data = JSON.parse(saved);
+        notifications = {
+            harvest: data.harvest || [],
+            fertilizer: data.fertilizer || [],
+            harvestNotified: data.harvestNotified || {},
+            fertilizerNotified: data.fertilizerNotified || {}
+        };
         updateFertilizerBadge();
         console.log('📂 โหลดสถานะการแจ้งเตือน:', notifications);
     }
@@ -3501,20 +3469,26 @@ async function toggleGrowing(pondNum) {
             { icon: '🌱', type: 'normal' }
         );
         
-        if (confirmed) {
-            status.active = true;
-            status.startTime = Date.now();
-            status.minutes = 0;
-            
-            updateGrowingUI(pondNum, true);
-            saveGrowingData();
-            
-            const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
-            await sendToBlynk(growPins[pondNum], 1);
-            
-            console.log(`🌱 เริ่มปลูกกระบะที่ ${pondNum} - อุณหภูมิ: ${currentTemperatures[pondNum]}°C`);
-            console.log(`📤 ส่งคำสั่งเริ่มปลูก: ${growPins[pondNum]} = 1`);
-        }
+if (confirmed) {
+    status.active = true;
+    status.startTime = Date.now();
+    status.minutes = 0;
+    
+    // ✅ เคลียร์การแจ้งเตือนเก่าทั้งหมด
+    delete notifications.harvestNotified[pondNum];
+    delete notifications.fertilizerNotified[pondNum];
+    notifications.harvest = notifications.harvest.filter(n => n !== pondNum);
+    notifications.fertilizer = notifications.fertilizer.filter(f => f.pondNum !== pondNum);
+    saveNotificationState();
+    
+    updateGrowingUI(pondNum, true);
+    saveGrowingData();
+    
+    const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+    await sendToBlynk(growPins[pondNum], 1);
+    
+    console.log(`🌱 เริ่มปลูกกระบะที่ ${pondNum}`);
+}
     } else {
         // หยุดปลูก
         const confirmed = await showConfirm(
