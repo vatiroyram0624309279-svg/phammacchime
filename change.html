@@ -1945,6 +1945,16 @@ body.dark-mode .settings-content {
             fertilizer: []
         };
         let darkMode = false;
+		let currentTemperatures = {
+		1: null,
+		2: null,
+		3: null
+		};
+		let temperatureWarnings = {
+		1: { shown: false, lastTemp: null },
+		2: { shown: false, lastTemp: null },
+		3: { shown: false, lastTemp: null }
+		};
 
         // ตั้งค่าการแจ้งเตือน
         let notificationSettings = {
@@ -3085,30 +3095,39 @@ if (oxygenToggle && oxygenMode) {
             });
         }
 
-        function displayData(data) {
-            document.getElementById('temp1').textContent = data.V5 !== undefined ? parseFloat(data.V5).toFixed(1) : '--';
-            document.getElementById('temp2').textContent = data.V6 !== undefined ? parseFloat(data.V6).toFixed(1) : '--';
-            document.getElementById('temp3').textContent = data.V7 !== undefined ? parseFloat(data.V7).toFixed(1) : '--';
-            
-            updateWaterStatus(1, data.V17);
-            updateWaterStatus(2, data.V16);
-            updateWaterStatus(3, data.V15);
-            updateWaterStatus(4, data.V2);
-            
-            updateLEDStatus(data);
-            syncInitialState(data);
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('app').style.display = 'block';
-            document.getElementById('sidebar').style.display = 'block';
-            
-            const statusText = document.querySelector('.header-status span');
-            if (statusText && demoMode) {
-                statusText.innerHTML = `<span style="color: #FDD835;">⚠️ โหมดทดสอบ</span> &bull; <span id="current-time"></span>`;
-                updateTime();
-            }
-            updateConnectionStatus();
-        }
-
+function displayData(data) {
+    // อัพเดทและเก็บค่าอุณหภูมิ
+    const temp1 = data.V5 !== undefined ? parseFloat(data.V5) : null;
+    const temp2 = data.V6 !== undefined ? parseFloat(data.V6) : null;
+    const temp3 = data.V7 !== undefined ? parseFloat(data.V7) : null;
+    
+    currentTemperatures[1] = temp1;
+    currentTemperatures[2] = temp2;
+    currentTemperatures[3] = temp3;
+    
+    document.getElementById('temp1').textContent = temp1 !== null ? temp1.toFixed(1) : '--';
+    document.getElementById('temp2').textContent = temp2 !== null ? temp2.toFixed(1) : '--';
+    document.getElementById('temp3').textContent = temp3 !== null ? temp3.toFixed(1) : '--';
+    
+    // ส่วนที่เหลือของฟังก์ชันเหมือนเดิม...
+    updateWaterStatus(1, data.V17);
+    updateWaterStatus(2, data.V16);
+    updateWaterStatus(3, data.V15);
+    updateWaterStatus(4, data.V2);
+    
+    updateLEDStatus(data);
+    syncInitialState(data);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('sidebar').style.display = 'block';
+    
+    const statusText = document.querySelector('.header-status span');
+    if (statusText && demoMode) {
+        statusText.innerHTML = `<span style="color: #FDD835;">⚠️ โหมดทดสอบ</span> &bull; <span id="current-time"></span>`;
+        updateTime();
+    }
+    updateConnectionStatus();
+}
         function updateLEDStatus(data) {
             const lightLed = document.getElementById('light-led-menu');
             if (lightLed) {
@@ -3281,11 +3300,175 @@ if (oxygenToggle && oxygenMode) {
                 }
             }
         }
+// ฟังก์ชันตรวจสอบอุณหภูมิ
+function checkTemperature(pondNum) {
+    const temp = currentTemperatures[pondNum];
+    
+    // ถ้ายังไม่มีข้อมูลอุณหภูมิ
+    if (temp === null || temp === undefined || isNaN(temp)) {
+        return {
+            isValid: false,
+            message: `❌ ไม่สามารถอ่านค่าอุณหภูมิกระบะที่ ${pondNum} ได้\n\nกรุณาตรวจสอบเซนเซอร์อุณหภูมิ`
+        };
+    }
+    
+    // ตรวจสอบช่วงอุณหภูมิ
+    if (temp < 20) {
+        return {
+            isValid: false,
+            message: `⚠️ อุณหภูมิต่ำเกินไป!\n\nกระบะที่ ${pondNum}: ${temp}°C\n(ต่ำกว่า 20°C)\n\nไม่แนะนำให้เริ่มปลูกในอุณหภูมิต่ำ`
+        };
+    }
+    
+    if (temp > 28) {
+        return {
+            isValid: false,
+            message: `⚠️ อุณหภูมิสูงเกินไป!\n\nกระบะที่ ${pondNum}: ${temp}°C\n(สูงกว่า 28°C)\n\nไม่แนะนำให้เริ่มปลูกในอุณหภูมิสูง`
+        };
+    }
+    
+    // อุณหภูมิปกติ
+    return {
+        isValid: true,
+        message: `✅ อุณหภูมิเหมาะสม\n\nกระบะที่ ${pondNum}: ${temp}°C`
+    };
+}
+// ฟังก์ชันแสดง Alert อุณหภูมิ
+function showTemperatureAlert(pondNum, temp, type) {
+    const container = document.getElementById('alert-container');
+    const alertId = `temp-alert-${pondNum}`;
+    
+    // ลบ alert เก่าถ้ามี
+    const oldAlert = document.getElementById(alertId);
+    if (oldAlert) {
+        oldAlert.remove();
+    }
+    
+    const isCold = type === 'cold';
+    const bgColor = isCold 
+        ? 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)' 
+        : 'linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%)';
+    const borderColor = isCold ? '#2196F3' : '#F44336';
+    const icon = isCold ? '❄️' : '🔥';
+    const title = isCold ? 'อุณหภูมิต่ำ' : 'อุณหภูมิสูง';
+    const textColor = isCold ? '#1976D2' : '#C62828';
+    
+    const alertHtml = `
+        <div class="alert-banner" id="${alertId}" style="background: ${bgColor}; border-color: ${borderColor}; animation: slideIn 0.3s;">
+            <div class="alert-icon">${icon}</div>
+            <div class="alert-content">
+                <div class="alert-title" style="color: ${textColor};">${title} - กระบะที่ ${pondNum}</div>
+                <div class="alert-text" style="color: ${textColor};">
+                    อุณหภูมิปัจจุบัน: ${temp}°C
+                    ${isCold ? '(ต่ำกว่า 20°C)' : '(สูงกว่า 28°C)'}
+                </div>
+            </div>
+            <button class="alert-close" onclick="document.getElementById('${alertId}').remove()">×</button>
+        </div>
+    `;
+    
+    container.insertAdjacentHTML('beforeend', alertHtml);
+    
+    // ลบ alert อัตโนมัติหลัง 10 วินาที
+    setTimeout(() => {
+        const alert = document.getElementById(alertId);
+        if (alert) {
+            alert.style.animation = 'slideIn 0.3s reverse';
+            setTimeout(() => alert.remove(), 300);
+        }
+    }, 10000);
+}
+// ฟังก์ชันตรวจสอบอุณหภูมิขณะปลูก
+function checkGrowingTemperatures() {
+    for (let i = 1; i <= 3; i++) {
+        // เช็คเฉพาะกระบะที่กำลังปลูกอยู่
+        if (!growingStatus[i].active) {
+            // ถ้าหยุดปลูกแล้ว รีเซ็ตสถานะการแจ้งเตือน
+            temperatureWarnings[i].shown = false;
+            temperatureWarnings[i].lastTemp = null;
+            continue;
+        }
+        
+        const temp = currentTemperatures[i];
+        
+        // ข้ามถ้าไม่มีข้อมูลอุณหภูมิ
+        if (temp === null || temp === undefined || isNaN(temp)) {
+            continue;
+        }
+        
+        const isOutOfRange = temp < 20 || temp > 28;
+        const tempChanged = temperatureWarnings[i].lastTemp !== temp;
+        
+        // แจ้งเตือนเมื่อ: อุณหภูมิผิดปกติ และ (ยังไม่เคยแจ้ง หรือ อุณหภูมิเปลี่ยน)
+        if (isOutOfRange && (!temperatureWarnings[i].shown || tempChanged)) {
+            temperatureWarnings[i].shown = true;
+            temperatureWarnings[i].lastTemp = temp;
+            
+            let warningMessage = '';
+            let icon = '🌡️';
+            
+            if (temp < 20) {
+                warningMessage = `กระบะที่ ${i}: อุณหภูมิต่ำ ${temp}°C\n(ต่ำกว่า 20°C)\n\nอาจส่งผลต่อการเจริญเติบโต`;
+                icon = '❄️';
+            } else if (temp > 28) {
+                warningMessage = `กระบะที่ ${i}: อุณหภูมิสูง ${temp}°C\n(สูงกว่า 28°C)\n\nอาจส่งผลต่อการเจริญเติบโต`;
+                icon = '🔥';
+            }
+            
+            console.log(`🌡️ [แจ้งเตือนอุณหภูมิ] ${warningMessage}`);
+            
+            // แสดงแจ้งเตือนแบบ Alert Banner
+            showTemperatureAlert(i, temp, temp < 20 ? 'cold' : 'hot');
+            
+            // ส่ง Web Notification
+            if (notificationSettings.webNotification) {
+                sendWebNotification(
+                    `${icon} อุณหภูมิผิดปกติ!`,
+                    warningMessage,
+                    icon
+                );
+            }
+            
+            // เล่นเสียงแจ้งเตือน
+            if (notificationSettings.sound) {
+                playNotificationSound();
+            }
+        }
+        
+        // ถ้าอุณหภูมิกลับมาปกติแล้ว รีเซ็ตสถานะ
+        if (!isOutOfRange && temperatureWarnings[i].shown) {
+            temperatureWarnings[i].shown = false;
+            console.log(`✅ อุณหภูมิกระบะที่ ${i} กลับมาปกติ: ${temp}°C`);
+        }
+    }
+}
+// ฟังก์ชันเริ่มปลูก/หยุดปลูก
 // ฟังก์ชันเริ่มปลูก/หยุดปลูก
 async function toggleGrowing(pondNum) {
     const status = growingStatus[pondNum];
     
     if (!status.active) {
+        // ✅ ตรวจสอบอุณหภูมิก่อนเริ่มปลูก
+        const tempCheck = checkTemperature(pondNum);
+        
+        if (!tempCheck.isValid) {
+            // แสดงคำเตือนอุณหภูมิไม่เหมาะสม
+            const proceedAnyway = await showConfirm(
+                '⚠️ อุณหภูมิไม่เหมาะสม',
+                tempCheck.message + '\n\nคุณต้องการเริ่มปลูกต่อหรือไม่?',
+                { icon: '⚠️', type: 'warning' }
+            );
+            
+            if (!proceedAnyway) {
+                console.log(`🌡️ ยกเลิกการปลูกกระบะที่ ${pondNum} - อุณหภูมิไม่เหมาะสม`);
+                return; // ❌ ยกเลิกการเริ่มปลูก
+            }
+            
+            console.log(`⚠️ ผู้ใช้เลือกเริ่มปลูกทั้งที่อุณหภูมิไม่เหมาะสม (กระบะ ${pondNum})`);
+        } else {
+            console.log(`✅ อุณหภูมิเหมาะสม: ${currentTemperatures[pondNum]}°C`);
+        }
+        
         // เริ่มปลูก
         const confirmed = await showConfirm(
             '🌱 เริ่มการปลูก',
@@ -3304,7 +3487,7 @@ async function toggleGrowing(pondNum) {
             const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
             await sendToBlynk(growPins[pondNum], 1);
             
-            console.log(`🌱 เริ่มปลูกกระบะที่ ${pondNum}`);
+            console.log(`🌱 เริ่มปลูกกระบะที่ ${pondNum} - อุณหภูมิ: ${currentTemperatures[pondNum]}°C`);
             console.log(`📤 ส่งคำสั่งเริ่มปลูก: ${growPins[pondNum]} = 1`);
         }
     } else {
@@ -3432,6 +3615,8 @@ setInterval(updateTime, 1000);
 setInterval(updateGrowingTimers, 1000);
 setInterval(checkNotifications, 3000);
 checkNotifications();
+setInterval(checkGrowingTemperatures, 5000); // ตรวจสอบทุก 5 วินาที
+checkGrowingTemperatures();
 // Event Listeners สำหรับอัพเดทตัวอย่างเมื่อเปลี่ยนค่า
 document.addEventListener('DOMContentLoaded', function() {
     const harvestDaysSelect = document.getElementById('harvest-days');
