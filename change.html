@@ -1479,11 +1479,7 @@ body.dark-mode .settings-content {
                             💡 <strong>Web Notification</strong> จะแจ้งเตือนแม้ปิดหน้านี้แล้ว (ต้องเปิดอยู่ในเบราว์เซอร์)
                         </div>
                     </div>
-					<div class="settings-option">
-						<span class="settings-option-label">🔔 ทดสอบการแจ้งเตือน</span>
-						<button onclick="testNotification()" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer;">ทดสอบ</button>
-					</div>
-                </div>
+					
 
 <!-- ตั้งค่าระยะเวลา -->
 <div class="settings-item" onclick="toggleSettingsItem(this)">
@@ -1492,7 +1488,7 @@ body.dark-mode .settings-content {
             <div class="settings-icon">⏱️</div>
             <div>
                 <div class="settings-label">ตั้งค่าระยะเวลา</div>
-                <div class="settings-desc">กำหนดวันเก็บเกี่ยวและใส่ปุ๋ย</div>
+                <div class="settings-desc">กำหนดเวลาเก็บเกี่ยวและใส่ปุ๋ย</div>
             </div>
         </div>
         <div class="settings-arrow">›</div>
@@ -1542,40 +1538,14 @@ body.dark-mode .settings-content {
                     <option value="30">30 วัน</option>
                 </select>
             </div>
-            <div class="settings-option" style="background: white;">
-                <span class="settings-option-label">🕐 เวลา</span>
-                <select id="harvest-time" 
-                       onclick="event.stopPropagation();"
-                       style="padding: 6px 12px; border: 2px solid #4CAF50; border-radius: 8px; font-weight: 600; color: #2E7D32; font-size: 14px; background: white; cursor: pointer;">
-                    <option value="00:00">00:00</option>
-                    <option value="01:00">01:00</option>
-                    <option value="02:00">02:00</option>
-                    <option value="03:00">03:00</option>
-                    <option value="04:00">04:00</option>
-                    <option value="05:00">05:00</option>
-                    <option value="06:00">06:00</option>
-                    <option value="07:00">07:00</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="12:00" selected>12:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
-                    <option value="18:00">18:00</option>
-                    <option value="19:00">19:00</option>
-                    <option value="20:00">20:00</option>
-                    <option value="21:00">21:00</option>
-                    <option value="22:00">22:00</option>
-                    <option value="23:00">23:00</option>
-                </select>
-                <span style="color: #2E7D32; font-weight: 600; margin-left: 4px;">น.</span>
-            </div>
+<div class="settings-option" style="background: white;">
+    <span class="settings-option-label">🕐 เวลา</span>
+    <input type="time" id="harvest-time" value="12:00"
+           onclick="event.stopPropagation();"
+           style="padding: 6px 12px; border: 2px solid #4CAF50; border-radius: 8px; font-weight: 600; color: #2E7D32; font-size: 14px; background: white; cursor: pointer;">
+</div>
             <div style="margin-top: 8px; padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; font-size: 11px; color: #2E7D32;">
-                💡  นับจากวันที่ปลูกไปอีก <strong id="harvest-example-days">7</strong> วัน เวลา <strong id="harvest-example-time">12:00</strong> น.
+                💡 นับจากวันที่ปลูกไปอีก <strong id="harvest-example-text">7 วัน เวลา 12:00 น.</strong>
             </div>
         </div>
 
@@ -1623,41 +1593,16 @@ body.dark-mode .settings-content {
                     <option value="30">30 วัน</option>
                 </select>
             </div>
-            <div class="settings-option" style="background: white;">
-                <span class="settings-option-label">🕐 เวลา</span>
-                <select id="fertilizer-time" 
-                       onclick="event.stopPropagation();"
-                       style="padding: 6px 12px; border: 2px solid #FF9800; border-radius: 8px; font-weight: 600; color: #E65100; font-size: 14px; background: white; cursor: pointer;">
-                    <option value="00:00">00:00</option>
-                    <option value="01:00">01:00</option>
-                    <option value="02:00">02:00</option>
-                    <option value="03:00">03:00</option>
-                    <option value="04:00">04:00</option>
-                    <option value="05:00">05:00</option>
-                    <option value="06:00">06:00</option>
-                    <option value="07:00">07:00</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="12:00" selected>12:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
-                    <option value="18:00">18:00</option>
-                    <option value="19:00">19:00</option>
-                    <option value="20:00">20:00</option>
-                    <option value="21:00">21:00</option>
-                    <option value="22:00">22:00</option>
-                    <option value="23:00">23:00</option>
-                </select>
-                <span style="color: #E65100; font-weight: 600; margin-left: 4px;">น.</span>
-            </div>
-            <div style="margin-top: 8px; padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; font-size: 11px; color: #E65100;">
-                💡  นับจากวันที่เก็บเกี่ยวไปอีก <strong id="fertilizer-example-days">7</strong> วัน เวลา <strong id="fertilizer-example-time">12:00</strong> น.
-            </div>
+<div class="settings-option" style="background: white;">
+    <span class="settings-option-label">🕐 เวลา</span>
+    <input type="time" id="fertilizer-time" value="14:00"
+           onclick="event.stopPropagation();"
+           style="padding: 6px 12px; border: 2px solid #FF9800; border-radius: 8px; font-weight: 600; color: #E65100; font-size: 14px; background: white; cursor: pointer;">
+</div>
+<div style="margin-top: 8px; padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; font-size: 11px; color: #E65100;">
+    💡 นับจากวันที่<strong>ปลูก</strong>ไปอีก <strong id="fertilizer-example-text">7 วัน เวลา 14:00 น.</strong>
+</div>
+
         </div>
 
         <!-- ปุ่มยืนยัน -->
@@ -1965,13 +1910,12 @@ body.dark-mode .settings-content {
         };
 
         // ตั้งค่าระยะเวลา
-        let timeSettings = {
-            harvestDays: 7,
-            harvestTime: '12:00',
-            fertilizerDays: 7,
-            fertilizerTime: '12:00'
-        };
-
+let timeSettings = {
+    harvestDays: 7,
+    harvestTime: '12:00',
+    fertilizerDays: 7,
+    fertilizerTime: '14:00'
+};
         // ระบบ Web Notification
         let notificationPermission = 'default';
 
@@ -2098,15 +2042,26 @@ body.dark-mode .settings-content {
 
 // ฟังก์ชันอัพเดทข้อความตัวอย่าง
 function updateExampleText() {
-    const harvestDays = document.getElementById('harvest-days').value;
-    const harvestTime = document.getElementById('harvest-time').value;
-    const fertilizerDays = document.getElementById('fertilizer-days').value;
-    const fertilizerTime = document.getElementById('fertilizer-time').value;
+    const harvestDays = document.getElementById('harvest-days');
+    const harvestTime = document.getElementById('harvest-time');
+    const fertilizerDays = document.getElementById('fertilizer-days');
+    const fertilizerTime = document.getElementById('fertilizer-time');
     
-    document.getElementById('harvest-example-days').textContent = harvestDays;
-    document.getElementById('harvest-example-time').textContent = harvestTime;
-    document.getElementById('fertilizer-example-days').textContent = fertilizerDays;
-    document.getElementById('fertilizer-example-time').textContent = fertilizerTime;
+    const harvestExampleText = document.getElementById('harvest-example-text');
+    const fertilizerExampleText = document.getElementById('fertilizer-example-text');
+    
+    // เช็คว่า elements โหลดเสร็จแล้วหรือยัง
+    if (!harvestDays || !harvestTime || 
+        !fertilizerDays || !fertilizerTime ||
+        !harvestExampleText || !fertilizerExampleText) {
+        return;
+    }
+    
+    harvestExampleText.textContent = 
+        `${harvestDays.value} วัน เวลา ${harvestTime.value} น.`;
+    
+    fertilizerExampleText.textContent = 
+        `${fertilizerDays.value} วัน เวลา ${fertilizerTime.value} น.`;
 }
 
 // โหลดการตั้งค่าระยะเวลา (แก้ไขใหม่)
@@ -2114,37 +2069,62 @@ function loadTimeSettings() {
     const saved = localStorage.getItem('timeSettings');
     if (saved) {
         timeSettings = JSON.parse(saved);
-        
-        const harvestDaysInput = document.getElementById('harvest-days');
-        const harvestTimeInput = document.getElementById('harvest-time');
-        const fertilizerDaysInput = document.getElementById('fertilizer-days');
-        const fertilizerTimeInput = document.getElementById('fertilizer-time');
-        
-        if (harvestDaysInput) harvestDaysInput.value = timeSettings.harvestDays;
-        if (harvestTimeInput) harvestTimeInput.value = timeSettings.harvestTime;
-        if (fertilizerDaysInput) fertilizerDaysInput.value = timeSettings.fertilizerDays;
-        if (fertilizerTimeInput) fertilizerTimeInput.value = timeSettings.fertilizerTime;
-        
-        // อัพเดทข้อความตัวอย่าง
-        updateExampleText();
     }
+    
+    // ตั้งค่าเริ่มต้นถ้ายังไม่มีค่า
+    if (!timeSettings.harvestTime) timeSettings.harvestTime = '12:00';
+    if (!timeSettings.fertilizerTime) timeSettings.fertilizerTime = '14:00';
+    
+    const harvestDaysInput = document.getElementById('harvest-days');
+    const harvestTimeInput = document.getElementById('harvest-time');
+    const fertilizerDaysInput = document.getElementById('fertilizer-days');
+    const fertilizerTimeInput = document.getElementById('fertilizer-time');
+    
+    if (harvestDaysInput) harvestDaysInput.value = timeSettings.harvestDays || 7;
+    if (harvestTimeInput) harvestTimeInput.value = timeSettings.harvestTime || '12:00';
+    if (fertilizerDaysInput) fertilizerDaysInput.value = timeSettings.fertilizerDays || 7;
+    if (fertilizerTimeInput) fertilizerTimeInput.value = timeSettings.fertilizerTime || '14:00';
+    
+    updateExampleText();
 }
 function saveTimeSettings() {
+    // แปลงเวลาจาก HH:MM เป็น Hours และ Minutes สำหรับการคำนวณ
+    const [harvestHours, harvestMinutes] = timeSettings.harvestTime.split(':').map(Number);
+    const [fertilizerHours, fertilizerMinutes] = timeSettings.fertilizerTime.split(':').map(Number);
+    
+    timeSettings.harvestHours = harvestHours;
+    timeSettings.harvestMinutes = harvestMinutes;
+    timeSettings.fertilizerHours = fertilizerHours;
+    timeSettings.fertilizerMinutes = fertilizerMinutes;
+    
     localStorage.setItem('timeSettings', JSON.stringify(timeSettings));
     console.log('✅ บันทึกการตั้งค่าระยะเวลา:', timeSettings);
 }
 
 // ฟังก์ชันอัพเดทข้อความตัวอย่าง
 function updateExampleText() {
-    const harvestDays = document.getElementById('harvest-days').value;
-    const harvestTime = document.getElementById('harvest-time').value;
-    const fertilizerDays = document.getElementById('fertilizer-days').value;
-    const fertilizerTime = document.getElementById('fertilizer-time').value;
+    const harvestDays = document.getElementById('harvest-days');
+    const harvestHours = document.getElementById('harvest-hours');
+    const harvestMinutes = document.getElementById('harvest-minutes');
+    const fertilizerDays = document.getElementById('fertilizer-days');
+    const fertilizerHours = document.getElementById('fertilizer-hours');
+    const fertilizerMinutes = document.getElementById('fertilizer-minutes');
     
-    document.getElementById('harvest-example-days').textContent = harvestDays;
-    document.getElementById('harvest-example-time').textContent = harvestTime;
-    document.getElementById('fertilizer-example-days').textContent = fertilizerDays;
-    document.getElementById('fertilizer-example-time').textContent = fertilizerTime;
+    const harvestExampleText = document.getElementById('harvest-example-text');
+    const fertilizerExampleText = document.getElementById('fertilizer-example-text');
+    
+    // ✅ เช็คว่า elements โหลดเสร็จแล้วหรือยัง
+    if (!harvestDays || !harvestHours || !harvestMinutes || 
+        !fertilizerDays || !fertilizerHours || !fertilizerMinutes ||
+        !harvestExampleText || !fertilizerExampleText) {
+        return; // ถ้ายังไม่โหลดเสร็จ ให้ข้ามไป
+    }
+    
+    harvestExampleText.textContent = 
+        `${harvestDays.value} วัน ${harvestHours.value} ชม. ${harvestMinutes.value} นาที`;
+    
+    fertilizerExampleText.textContent = 
+        `${fertilizerDays.value} วัน ${fertilizerHours.value} ชม. ${fertilizerMinutes.value} นาที`;
 }
 
 // โหลดการตั้งค่าระยะเวลา
@@ -2154,16 +2134,20 @@ function loadTimeSettings() {
         timeSettings = JSON.parse(saved);
         
         const harvestDaysInput = document.getElementById('harvest-days');
-        const harvestTimeInput = document.getElementById('harvest-time');
+        const harvestHoursInput = document.getElementById('harvest-hours');
+        const harvestMinutesInput = document.getElementById('harvest-minutes');
         const fertilizerDaysInput = document.getElementById('fertilizer-days');
-        const fertilizerTimeInput = document.getElementById('fertilizer-time');
+        const fertilizerHoursInput = document.getElementById('fertilizer-hours');
+        const fertilizerMinutesInput = document.getElementById('fertilizer-minutes');
         
         if (harvestDaysInput) harvestDaysInput.value = timeSettings.harvestDays;
-        if (harvestTimeInput) harvestTimeInput.value = timeSettings.harvestTime;
+        if (harvestHoursInput) harvestHoursInput.value = timeSettings.harvestHours;
+        if (harvestMinutesInput) harvestMinutesInput.value = timeSettings.harvestMinutes;
         if (fertilizerDaysInput) fertilizerDaysInput.value = timeSettings.fertilizerDays;
-        if (fertilizerTimeInput) fertilizerTimeInput.value = timeSettings.fertilizerTime;
+        if (fertilizerHoursInput) fertilizerHoursInput.value = timeSettings.fertilizerHours;
+        if (fertilizerMinutesInput) fertilizerMinutesInput.value = timeSettings.fertilizerMinutes;
         
-        // อัพเดทข้อความตัวอย่าง
+        // ✅ เรียก updateExampleText() ก็ต่อเมื่อ elements พร้อม
         updateExampleText();
     }
 }
@@ -2171,13 +2155,25 @@ function loadTimeSettings() {
 // ยืนยันการตั้งค่าเวลา
 async function confirmTimeSettings() {
     const harvestDays = parseInt(document.getElementById('harvest-days').value);
-    const harvestTime = document.getElementById('harvest-time').value;
+    const harvestHours = parseInt(document.getElementById('harvest-hours').value);
+    const harvestMinutes = parseInt(document.getElementById('harvest-minutes').value);
     const fertilizerDays = parseInt(document.getElementById('fertilizer-days').value);
-    const fertilizerTime = document.getElementById('fertilizer-time').value;
+    const fertilizerHours = parseInt(document.getElementById('fertilizer-hours').value);
+    const fertilizerMinutes = parseInt(document.getElementById('fertilizer-minutes').value);
     
     // ตรวจสอบความถูกต้อง
     if (isNaN(harvestDays) || harvestDays < 0 || harvestDays > 30) {
         alert('❌ กรุณาเลือกวันเก็บเกี่ยวระหว่าง 0-30 วัน');
+        return;
+    }
+    
+    if (isNaN(harvestHours) || harvestHours < 0 || harvestHours > 23) {
+        alert('❌ กรุณาเลือกชั่วโมงเก็บเกี่ยวระหว่าง 0-23 ชม.');
+        return;
+    }
+    
+    if (isNaN(harvestMinutes) || harvestMinutes < 0 || harvestMinutes > 59) {
+        alert('❌ กรุณาเลือกนาทีเก็บเกี่ยวระหว่าง 0-59 นาที');
         return;
     }
     
@@ -2186,36 +2182,42 @@ async function confirmTimeSettings() {
         return;
     }
     
+    if (isNaN(fertilizerHours) || fertilizerHours < 0 || fertilizerHours > 23) {
+        alert('❌ กรุณาเลือกชั่วโมงใส่ปุ๋ยระหว่าง 0-23 ชม.');
+        return;
+    }
+    
+    if (isNaN(fertilizerMinutes) || fertilizerMinutes < 0 || fertilizerMinutes > 59) {
+        alert('❌ กรุณาเลือกนาทีใส่ปุ๋ยระหว่าง 0-59 นาที');
+        return;
+    }
+    
     // แสดง Confirm Dialog
     const confirmed = await showConfirm(
         '✅ ยืนยันการตั้งค่า',
         `คุณต้องการบันทึกการตั้งค่าเวลาใหม่ใช่หรือไม่?\n\n` +
-        `🌱 เก็บเกี่ยว: นับจากวันที่ปลูกไปอีก ${harvestDays} วัน เวลา ${harvestTime} น.\n` +
-        `🌾 ใส่ปุ๋ย: นับจากวันที่เก็บเกี่ยวไปอีก ${fertilizerDays} วัน เวลา ${fertilizerTime} น.`,
+        `🌱 เก็บเกี่ยว: ${harvestDays} วัน ${harvestHours} ชม. ${harvestMinutes} นาที\n` +
+        `🌾 ใส่ปุ๋ย: ${fertilizerDays} วัน ${fertilizerHours} ชม. ${fertilizerMinutes} นาที`,
         { icon: '✅', type: 'normal' }
     );
     
     if (confirmed) {
-        // บันทึกการตั้งค่า
         timeSettings.harvestDays = harvestDays;
-        timeSettings.harvestTime = harvestTime;
+        timeSettings.harvestHours = harvestHours;
+        timeSettings.harvestMinutes = harvestMinutes;
         timeSettings.fertilizerDays = fertilizerDays;
-        timeSettings.fertilizerTime = fertilizerTime;
+        timeSettings.fertilizerHours = fertilizerHours;
+        timeSettings.fertilizerMinutes = fertilizerMinutes;
         
         saveTimeSettings();
-        
-        // อัพเดทข้อความตัวอย่าง
         updateExampleText();
         
-        // แสดงข้อความสำเร็จ
         console.log('✅ บันทึกการตั้งค่าเวลาสำเร็จ:', timeSettings);
         
-        // เล่นเสียงสำเร็จ
         if (notificationSettings.sound) {
             playNotificationSound();
         }
         
-        // แสดงข้อความแจ้งเตือน
         const container = document.getElementById('alert-container');
         const alertId = `alert-success-${Date.now()}`;
         
@@ -2232,7 +2234,6 @@ async function confirmTimeSettings() {
         
         container.insertAdjacentHTML('beforeend', alertHtml);
         
-        // ลบ alert หลัง 3 วินาที
         setTimeout(() => {
             const alert = document.getElementById(alertId);
             if (alert) {
@@ -2592,82 +2593,107 @@ function closeAlert(alertId, type, pondNum) {
 // ตรวจสอบการแจ้งเตือน
 // แทนที่ฟังก์ชัน checkNotifications() เดิมทั้งหมดด้วยโค้ดนี้
 // ตรวจสอบการแจ้งเตือน
+// ตรวจสอบการแจ้งเตือน (แก้ไขให้ใช้เวลาจริง)
+// ตรวจสอบการแจ้งเตือน
 function checkNotifications() {
-    const now = new Date();
-	console.log('🔍 กำลังตรวจสอบการแจ้งเตือน...', {
-    เวลาปัจจุบัน: now.toLocaleString('th-TH'),
-    กระบะที่ปลูก: Object.entries(growingStatus)
-        .filter(([_, s]) => s.active)
-        .map(([num, s]) => ({
-            กระบะ: num,
-            เริ่มเมื่อ: new Date(s.startTime).toLocaleString('th-TH')
-        }))
-	});	
-    const currentTime = now.getTime();
+    const now = Date.now();
     
     for (let i = 1; i <= 3; i++) {
         const status = growingStatus[i];
         
-        // ตรวจสอบเวลาเก็บเกี่ยว
+        // ===============================
+        // 🌱 เช็คเวลาเก็บเกี่ยว
+        // ===============================
         if (status.active && status.startTime) {
             const startDate = new Date(status.startTime);
-            const [targetHours, targetMinutes] = timeSettings.harvestTime.split(':').map(Number);
+            
+            // สร้างวันที่เป้าหมาย = วันที่เริ่มปลูก + จำนวนวัน
             const harvestDate = new Date(startDate);
             harvestDate.setDate(harvestDate.getDate() + timeSettings.harvestDays);
-            harvestDate.setHours(targetHours, targetMinutes, 0, 0);
             
-            const shouldNotify = currentTime >= harvestDate.getTime() && 
+            // ตั้งเวลาเป็นเวลาที่กำหนด
+            const [harvestHours, harvestMinutes] = timeSettings.harvestTime.split(':').map(Number);
+            harvestDate.setHours(harvestHours);
+            harvestDate.setMinutes(harvestMinutes);
+            harvestDate.setSeconds(0);
+            harvestDate.setMilliseconds(0);
+            
+            const harvestTime = harvestDate.getTime();
+            
+            // เช็คว่าถึงเวลาแล้วหรือยัง + ยังไม่เคยแจ้งเตือน
+            const shouldNotify = now >= harvestTime && 
                                !notifications.harvest.includes(i);
             
             if (shouldNotify) {
-                const elapsed = currentTime - status.startTime;
+                const elapsed = now - status.startTime;
                 const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
-                const remainingHours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                const remainingMinutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
+                const hours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                const minutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
                 
                 console.log(`🔔 [เก็บเกี่ยว] กระบะที่ ${i} ถึงเวลาแล้ว!`, {
                     เริ่มปลูก: startDate.toLocaleString('th-TH'),
                     เป้าหมาย: harvestDate.toLocaleString('th-TH'),
-                    ปลูกมา: `${days} วัน ${remainingHours}:${String(remainingMinutes).padStart(2, '0')}`
+                    ปลูกมา: `${days} วัน ${hours}:${String(minutes).padStart(2, '0')}`
                 });
                 
                 showAlert('harvest', i, 
-                    `กระบะที่ ${i} ปลูกมา ${days} วัน ${remainingHours}:${String(remainingMinutes).padStart(2, '0')} น. แล้ว\n` +
+                    `กระบะที่ ${i} ปลูกมา ${days} วัน ${hours}:${String(minutes).padStart(2, '0')} น. แล้ว\n` +
                     `(ตั้งค่า ${timeSettings.harvestDays} วัน เวลา ${timeSettings.harvestTime} น.)`
                 );
                 
+                // บันทึกว่าแจ้งเตือนไปแล้ว
                 notifications.harvest.push(i);
                 saveNotificationState();
             }
         }
         
-        // ตรวจสอบเวลาใส่ปุ๋ย
-        if (status.harvestTime) {
-            const harvestDate = new Date(status.harvestTime);
-            const [targetHours, targetMinutes] = timeSettings.fertilizerTime.split(':').map(Number);
-            const fertilizerDate = new Date(harvestDate);
-            fertilizerDate.setDate(fertilizerDate.getDate() + timeSettings.fertilizerDays);
-            fertilizerDate.setHours(targetHours, targetMinutes, 0, 0);
+        // ===============================
+        // 🌾 เช็คเวลาใส่ปุ๋ย (นับจากวันที่ปลูก)
+        // ===============================
+        if (status.active && status.startTime) {
+            const startDate = new Date(status.startTime);
             
+            // สร้างวันที่เป้าหมาย = วันที่เริ่มปลูก + จำนวนวัน
+            const fertilizerDate = new Date(startDate);
+            fertilizerDate.setDate(fertilizerDate.getDate() + timeSettings.fertilizerDays);
+            
+            // ตั้งเวลาเป็นเวลาที่กำหนด
+            const [fertilizerHours, fertilizerMinutes] = timeSettings.fertilizerTime.split(':').map(Number);
+            fertilizerDate.setHours(fertilizerHours);
+            fertilizerDate.setMinutes(fertilizerMinutes);
+            fertilizerDate.setSeconds(0);
+            fertilizerDate.setMilliseconds(0);
+            
+            const fertilizerTime = fertilizerDate.getTime();
+            
+            // เช็คว่าแจ้งเตือนไปแล้วหรือยัง
             const alreadyNotified = notifications.fertilizer.some(n => n.pondNum === i);
-            const shouldNotify = currentTime >= fertilizerDate.getTime() && !alreadyNotified;
+            const shouldNotify = now >= fertilizerTime && !alreadyNotified;
             
             if (shouldNotify) {
-                const elapsed = currentTime - status.harvestTime;
+                const elapsed = now - status.startTime;
                 const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
-                const remainingHours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                const remainingMinutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
+                const hours = Math.floor((elapsed % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                const minutes = Math.floor((elapsed % (60 * 60 * 1000)) / (60 * 1000));
                 
                 console.log(`🔔 [ใส่ปุ๋ย] กระบะที่ ${i} ถึงเวลาแล้ว!`, {
-                    เก็บเกี่ยว: harvestDate.toLocaleString('th-TH'),
+                    เริ่มปลูก: startDate.toLocaleString('th-TH'),
                     เป้าหมาย: fertilizerDate.toLocaleString('th-TH'),
-                    เก็บเกี่ยวมา: `${days} วัน ${remainingHours}:${String(remainingMinutes).padStart(2, '0')}`
+                    ปลูกมา: `${days} วัน ${hours}:${String(minutes).padStart(2, '0')}`
                 });
                 
                 showAlert('fertilizer', i, 
-                    `กระบะที่ ${i} เก็บเกี่ยวมา ${days} วัน ${remainingHours}:${String(remainingMinutes).padStart(2, '0')} น. แล้ว\n` +
+                    `กระบะที่ ${i} ปลูกมา ${days} วัน ${hours}:${String(minutes).padStart(2, '0')} น. แล้ว\n` +
                     `(ตั้งค่า ${timeSettings.fertilizerDays} วัน เวลา ${timeSettings.fertilizerTime} น.)`
                 );
+                
+                // บันทึกว่าแจ้งเตือนไปแล้ว
+                notifications.fertilizer.push({
+                    pondNum: i,
+                    time: now
+                });
+                saveNotificationState();
+                updateFertilizerBadge();
             }
         }
     }
@@ -2714,8 +2740,7 @@ function loadNotificationState() {
             saveFertilizerHistory();
             displayFertilizerHistory();
             
-            growingStatus[pondNum].harvestTime = null;
-            saveGrowingData();
+
         }
 
         function displayFertilizerHistory() {
@@ -3261,7 +3286,7 @@ async function togglePump(pumpNum) {
                             growingStatus[pumpNum].active = false;
                             growingStatus[pumpNum].startTime = null;
                             growingStatus[pumpNum].minutes = 0;
-                            growingStatus[pumpNum].harvestTime = Date.now();
+                       
                             
                             updateGrowingUI(pumpNum, false);
                             saveGrowingData();
@@ -3618,24 +3643,21 @@ checkNotifications();
 setInterval(checkGrowingTemperatures, 5000); // ตรวจสอบทุก 5 วินาที
 checkGrowingTemperatures();
 // Event Listeners สำหรับอัพเดทตัวอย่างเมื่อเปลี่ยนค่า
+// Event Listeners สำหรับอัพเดทตัวอย่างเมื่อเปลี่ยนค่า
 document.addEventListener('DOMContentLoaded', function() {
+    // เพิ่ม Event Listeners สำหรับ input time
+    const harvestTimeInput = document.getElementById('harvest-time');
+    const fertilizerTimeInput = document.getElementById('fertilizer-time');
     const harvestDaysSelect = document.getElementById('harvest-days');
-    const harvestTimeSelect = document.getElementById('harvest-time');
     const fertilizerDaysSelect = document.getElementById('fertilizer-days');
-    const fertilizerTimeSelect = document.getElementById('fertilizer-time');
     
-    if (harvestDaysSelect) {
-        harvestDaysSelect.addEventListener('change', updateExampleText);
-    }
-    if (harvestTimeSelect) {
-        harvestTimeSelect.addEventListener('change', updateExampleText);
-    }
-    if (fertilizerDaysSelect) {
-        fertilizerDaysSelect.addEventListener('change', updateExampleText);
-    }
-    if (fertilizerTimeSelect) {
-        fertilizerTimeSelect.addEventListener('change', updateExampleText);
-    }
+    if (harvestTimeInput) harvestTimeInput.addEventListener('change', updateExampleText);
+    if (fertilizerTimeInput) fertilizerTimeInput.addEventListener('change', updateExampleText);
+    if (harvestDaysSelect) harvestDaysSelect.addEventListener('change', updateExampleText);
+    if (fertilizerDaysSelect) fertilizerDaysSelect.addEventListener('change', updateExampleText);
+    
+    // อัพเดทครั้งแรก
+    updateExampleText();
 });
 
 // เริ่มต้นเชื่อมต่อ Blynk
