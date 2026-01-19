@@ -2988,17 +2988,17 @@ if (newState) {
 }
         }
 
-        const demoData = {
-            V2: 1,
-            V5: 28.5,
-            V6: 29.2,
-            V7: 27.8,
-            V15: 1,
-            V16: 1,
-            V17: 0,
-            V0: 0,
-            V1: 0,
-        };
+const demoData = {
+    V2: 1,
+    V7: 28.5,
+    V6: 29.2,
+    V5: 27.8,
+    V17: 1,
+    V16: 1,
+    V15: 0,
+    V0: 0,
+    V1: 0,
+};
 
         async function clearHistory() {
             const confirmed = await showConfirm(
@@ -3073,8 +3073,7 @@ if (newState) {
 
         async function fetchBlynkData() {
     try {
-        const pins = ['V2', 'V5', 'V6', 'V7', 'V15', 'V16', 'V17', 'V24', 'V25', 'V10', 'V11', 'V12', 'V0', 'V1', 'V20', 'V21', 'V22'];
-        
+		const pins = ['V2', 'V7', 'V6', 'V5', 'V17', 'V16', 'V15', 'V24', 'V25', 'V12', 'V11', 'V10', 'V0', 'V1', 'V22', 'V21', 'V20'];        
         // เพิ่ม timeout 5 วินาที
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -3139,12 +3138,12 @@ if (newState) {
         // ตั้งค่าอัพเดทข้อมูลสุ่มทุก 3 วินาที
         setInterval(() => {
             demoData.V2 = Math.random() > 0.5 ? 1 : 0;
-            demoData.V5 = (27 + Math.random() * 3).toFixed(1);
-            demoData.V6 = (27 + Math.random() * 3).toFixed(1);
-            demoData.V7 = (27 + Math.random() * 3).toFixed(1);
-            demoData.V15 = Math.random() > 0.5 ? 1 : 0;
-            demoData.V16 = Math.random() > 0.5 ? 1 : 0;
-            demoData.V17 = Math.random() > 0.5 ? 1 : 0;
+			demoData.V7 = (27 + Math.random() * 3).toFixed(1);
+			demoData.V6 = (27 + Math.random() * 3).toFixed(1);
+			demoData.V5 = (27 + Math.random() * 3).toFixed(1);
+			demoData.V17 = Math.random() > 0.5 ? 1 : 0;
+			demoData.V16 = Math.random() > 0.5 ? 1 : 0;
+			demoData.V15 = Math.random() > 0.5 ? 1 : 0;
             demoData.V0 = Math.random() > 0.5 ? 1 : 0;
             demoData.V1 = Math.random() > 0.5 ? 1 : 0;
             displayData(demoData);
@@ -3180,9 +3179,9 @@ if (oxygenToggle && oxygenMode) {
 
 function displayData(data) {
     // อัพเดทและเก็บค่าอุณหภูมิ
-    const temp1 = data.V5 !== undefined ? parseFloat(data.V5) : null;
-    const temp2 = data.V6 !== undefined ? parseFloat(data.V6) : null;
-    const temp3 = data.V7 !== undefined ? parseFloat(data.V7) : null;
+	const temp1 = data.V7 !== undefined ? parseFloat(data.V7) : null;
+	const temp2 = data.V6 !== undefined ? parseFloat(data.V6) : null;
+	const temp3 = data.V5 !== undefined ? parseFloat(data.V5) : null;
     
     currentTemperatures[1] = temp1;
     currentTemperatures[2] = temp2;
@@ -3193,10 +3192,10 @@ function displayData(data) {
     document.getElementById('temp3').textContent = temp3 !== null ? temp3.toFixed(1) : '--';
     
     // ส่วนที่เหลือของฟังก์ชันเหมือนเดิม...
-    updateWaterStatus(1, data.V17);
-    updateWaterStatus(2, data.V16);
-    updateWaterStatus(3, data.V15);
-    updateWaterStatus(4, data.V2);
+	updateWaterStatus(1, data.V15);
+	updateWaterStatus(2, data.V16);
+	updateWaterStatus(3, data.V17);
+	updateWaterStatus(4, data.V2);
     
     updateLEDStatus(data);
     syncInitialState(data);
@@ -3271,10 +3270,10 @@ function displayData(data) {
             }
         }
 
-        function getPumpPin(pondNum) {
-            const pins = { 1: 'V12', 2: 'V11', 3: 'V10' };
-            return pins[pondNum];
-        }
+function getPumpPin(pondNum) {
+    const pins = { 1: 'V10', 2: 'V11', 3: 'V12' };
+    return pins[pondNum];
+}
 
         async function sendToBlynk(pin, value) {
             if (emergencyStop && value === 1) return false;
@@ -3311,7 +3310,7 @@ async function togglePump(pumpNum) {
                 return;
             }
             
-            const pins = { 1: 'V12', 2: 'V11', 3: 'V10' };
+            const pins = { 1: 'V10', 2: 'V11', 3: 'V12' };
             
             if (!isActive) {
                 console.log(`💧 Pump ${pumpNum}: เปิดปั๊มดูดน้ำ`);
@@ -3349,7 +3348,7 @@ async function togglePump(pumpNum) {
                             updateGrowingUI(pumpNum, false);
                             saveGrowingData();
                             
-                            const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+                            const growPins = { 1: 'V22', 2: 'V21', 3: 'V20' };
                             await sendToBlynk(growPins[pumpNum], 0);
                             console.log(`🛑 หยุดเซนเซอร์กระบะที่ ${pumpNum} (เก็บเกี่ยวสำเร็จ)`);
                             
@@ -3608,8 +3607,8 @@ if (confirmed) {
     updateGrowingUI(pondNum, true);
     saveGrowingData();
     
-    const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
-    await sendToBlynk(growPins[pondNum], 1);
+	const growPins = { 1: 'V22', 2: 'V21', 3: 'V20' };
+	await sendToBlynk(growPins[pondNum], 1);
     
     console.log(`🌱 เริ่มปลูกกระบะที่ ${pondNum}`);
 }
@@ -3629,7 +3628,7 @@ if (confirmed) {
             updateGrowingUI(pondNum, false);
             saveGrowingData();
             
-            const growPins = { 1: 'V20', 2: 'V21', 3: 'V22' };
+            const growPins = { 1: 'V22', 2: 'V21', 3: 'V20' };
             await sendToBlynk(growPins[pondNum], 0);
             
             console.log(`🛑 หยุดปลูกกระบะที่ ${pondNum}`);
