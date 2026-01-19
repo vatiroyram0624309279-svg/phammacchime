@@ -19,28 +19,272 @@ body {
     min-height: 100vh;
     padding: 16px;
 }
+/* ===================================
+   💎 GLASSMORPHISM - โหมดสว่าง
+   =================================== */
 
-        .hamburger-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1001;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: all 0.3s;
-        }
+/* ===================================
+   💎 LIQUID GLASS / GLASSMORPHISM
+   =================================== */
+
+/* ⭐ Header - Liquid Glass */
+.header {
+    background: linear-gradient(135deg, 
+        rgba(46, 125, 50, 0.25) 0%, 
+        rgba(76, 175, 80, 0.25) 100%), 
+        url('https://i.ibb.co/MkmmJcxW/your-image.jpg') 0% center/cover no-repeat;
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ⭐ Cards & Timer Card - Liquid Glass */
+.card,
+.timer-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ⭐ Hamburger Button - Liquid Glass */
+.hamburger-btn {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* ⭐ Sidebar - Liquid Glass */
+.sidebar {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ⭐ Sidebar Menu Items - Liquid Glass */
+.sidebar-menu-item {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-menu-item:hover {
+    background: linear-gradient(135deg, 
+        rgba(200, 230, 201, 0.4) 0%, 
+        rgba(165, 214, 167, 0.4) 100%);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    box-shadow: 
+        0 4px 15px rgba(76, 175, 80, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* ⭐ Switch Items - Liquid Glass */
+.switch-item {
+    background: rgba(255, 248, 225, 0.35);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 2px solid rgba(255, 224, 130, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.08),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.switch-item.light {
+    background: rgba(255, 249, 196, 0.35);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-color: rgba(253, 216, 53, 0.5);
+}
+
+.switch-item.oxygen {
+    background: rgba(232, 245, 233, 0.35);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-color: rgba(129, 199, 132, 0.5);
+}
+
+.switch-item.pump {
+    background: rgba(225, 245, 254, 0.35);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-color: rgba(129, 212, 250, 0.5);
+}
+
+/* ⭐ LED Items - Liquid Glass */
+.led-item {
+    background: rgba(250, 250, 250, 0.3);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 2px solid rgba(232, 232, 232, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.06),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ⭐ Timer Items - Liquid Glass */
+.timer-item {
+    background: rgba(232, 245, 233, 0.35);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    border: 2px solid rgba(129, 199, 132, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(76, 175, 80, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.timer-item.inactive {
+    background: rgba(245, 245, 245, 0.35);
+    backdrop-filter: blur(25px) saturate(140%);
+    -webkit-backdrop-filter: blur(25px) saturate(140%);
+    border-color: rgba(189, 189, 189, 0.5);
+}
+
+/* ⭐ Settings Items - Liquid Glass */
+.settings-item {
+    background: rgba(248, 249, 250, 0.3);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 2px solid rgba(232, 232, 232, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.06),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.settings-option {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.04),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ⭐ History & Fertilizer Items - Liquid Glass */
+.history-item {
+    background: rgba(232, 245, 233, 0.4);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    box-shadow: 
+        0 4px 12px rgba(76, 175, 80, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.fertilizer-item {
+    background: rgba(255, 243, 224, 0.4);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    box-shadow: 
+        0 4px 12px rgba(255, 152, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ⭐ Confirm Dialog - Liquid Glass */
+.confirm-dialog {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* ⭐ Info Box - Liquid Glass */
+.info-box {
+    background: rgba(255, 243, 224, 0.4);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 2px solid rgba(255, 183, 77, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(255, 152, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ⭐ Alert Banner - Liquid Glass */
+.alert-banner {
+    background: rgba(255, 243, 224, 0.4);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 2px solid rgba(255, 152, 0, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(255, 152, 0, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.alert-banner.harvest {
+    background: rgba(232, 245, 233, 0.4);
+    border-color: rgba(76, 175, 80, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(76, 175, 80, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ลบ overlay เมื่อเป็นโหมดมืด */
+body.dark-mode::before {
+    display: none;
+}
+/* ===================================
+   BASE STYLES (properties ที่ไม่เกี่ยวกับ glassmorphism)
+   =================================== */
+
+.hamburger-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    /* background ถูกกำหนดใน glassmorphism section แล้ว */
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.3s;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -400px;
+    width: 400px;
+    height: 100vh;
+    /* background ถูกกำหนดใน glassmorphism section แล้ว */
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: left 0.3s;
+    overflow-y: auto;
+}
+
+.card,
+.timer-card {
+    /* background ถูกกำหนดใน glassmorphism section แล้ว */
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
 
         .hamburger-btn:hover {
             transform: scale(1.05);
@@ -67,21 +311,6 @@ body {
             transform: translateY(-8px) rotate(-45deg);
         }
 
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -400px;
-            width: 400px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
-            border-right: 1px solid rgba(255, 255, 255, 0.3);
-            z-index: 1000;
-            transition: left 0.3s;
-            overflow-y: auto;
-        }
 
         .sidebar.open {
             left: 0;
@@ -311,16 +540,7 @@ body {
             margin-top: 4px;
         }
 
-        .timer-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
+
 
         .timer-grid {
             display: flex;
@@ -481,23 +701,25 @@ body {
             height: 24px;
         }
 
-        .header {
-            background: linear-gradient(135deg, rgba(46, 125, 50, 0.85) 0%, rgba(76, 175, 80, 0.85) 100%), 
-                        url('https://i.ibb.co/MkmmJcxW/your-image.jpg') 0% center/cover no-repeat;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: white;
-            padding: 24px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            min-height: 120px;
-            background-size: cover;
-            background-position: 0% center;
-        }
+
+.header {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.75) 0%, rgba(76, 175, 80, 0.75) 100%), 
+                url('https://i.ibb.co/MkmmJcxW/your-image.jpg') 0% center/cover no-repeat;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* Properties เดิมที่ยังคงอยู่ */
+    color: white;
+    padding: 24px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+    background-size: cover;
+    background-position: 0% center;
+}
 
         .header-title {
             font-size: 24px;
@@ -534,16 +756,7 @@ body {
             50% { opacity: 0.6; transform: scale(0.9); }
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
+
 
         .card-header {
             font-size: 16px;
@@ -617,12 +830,52 @@ body {
 }
 
 /* Dark Mode */
+/* ⭐ อุณหภูมิต่ำ - Dark Mode */
 body.dark-mode .temp-item.cold {
-    box-shadow: 0 4px 12px rgba(66, 165, 245, 0.5);
+    background: linear-gradient(135deg, 
+        rgba(100, 181, 246, 0.8) 0%, 
+        rgba(66, 165, 245, 0.8) 100%);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(66, 165, 245, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
+body.dark-mode .temp-item.cold:hover {
+    box-shadow: 
+        0 6px 16px rgba(66, 165, 245, 0.7),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ⭐ อุณหภูมิสูง - Dark Mode */
 body.dark-mode .temp-item.hot {
-    box-shadow: 0 4px 12px rgba(239, 83, 80, 0.5);
+    background: linear-gradient(135deg, 
+        rgba(239, 83, 80, 0.8) 0%, 
+        rgba(229, 57, 53, 0.8) 100%);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(239, 83, 80, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .temp-item.hot:hover {
+    box-shadow: 
+        0 6px 16px rgba(239, 83, 80, 0.7),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ⭐ อุณหภูมิปกติ - Dark Mode */
+body.dark-mode .temp-item:not(.cold):not(.hot) {
+    background: linear-gradient(135deg, 
+        rgba(102, 187, 106, 0.7) 0%, 
+        rgba(76, 175, 80, 0.7) 100%);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(76, 175, 80, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 		.led-item {
             display: flex;
@@ -906,11 +1159,12 @@ body.dark-mode .temp-item.hot {
     display: none;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.3s;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .confirm-overlay.show {
-    display: flex;
+    opacity: 1;
 }
 
 .confirm-dialog {
@@ -920,18 +1174,20 @@ body.dark-mode .temp-item.hot {
     max-width: 400px;
     width: 90%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    transform: scale(0.9);
-    opacity: 0;
-    animation: popIn 0.3s forwards;
+    transform: scale(1);
+    opacity: 1;
 }
 
 @keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
     to {
         transform: scale(1);
         opacity: 1;
     }
 }
-
 .confirm-icon {
     width: 64px;
     height: 64px;
@@ -1063,11 +1319,93 @@ body.dark-mode .header {
                 url('https://i.ibb.co/MkmmJcxW/your-image.jpg') 0% center/cover no-repeat;
 }
 
+/* ===================================
+   🌙 DARK MODE - Liquid Glass
+   =================================== */
+
 body.dark-mode .card,
 body.dark-mode .timer-card {
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .sidebar {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .sidebar-menu-item {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .sidebar-menu-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    box-shadow: 
+        0 4px 15px rgba(76, 175, 80, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .hamburger-btn {
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+body.dark-mode .switch-item {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-color: rgba(255, 224, 130, 0.3);
+}
+
+body.dark-mode .led-item {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .settings-item {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .settings-option {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .timer-item {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+body.dark-mode .confirm-dialog {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -1214,6 +1552,161 @@ body.dark-mode .fertilizer-item {
 body.dark-mode .no-history {
     color: #666;
 }
+body.dark-mode .no-history {
+    color: #666;
+}
+
+/* ===================================
+   💎 LIQUID GLASS - เพิ่มเติมสำหรับหน้าต่างเมนู
+   =================================== */
+
+/* ⭐ No History Message */
+.no-history {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px) saturate(140%);
+    -webkit-backdrop-filter: blur(15px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ⭐ Clear History Button */
+.clear-history-btn {
+    background: linear-gradient(135deg, 
+        rgba(255, 82, 82, 0.9) 0%, 
+        rgba(244, 67, 54, 0.9) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 4px 15px rgba(244, 67, 54, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ⭐ Grow Buttons */
+.grow-btn {
+    background: linear-gradient(135deg, 
+        rgba(0, 230, 118, 0.9) 0%, 
+        rgba(0, 200, 83, 0.9) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 4px 16px rgba(0, 230, 118, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.grow-btn.growing {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.9) 0%, 
+        rgba(255, 160, 0, 0.9) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 
+        0 4px 16px rgba(255, 193, 7, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ⭐ Temperature Items */
+.temp-item {
+    background: linear-gradient(135deg, 
+        rgba(102, 187, 106, 0.9) 0%, 
+        rgba(76, 175, 80, 0.9) 100%);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 4px 12px rgba(76, 175, 80, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ⭐ Confirm Time Button */
+.confirm-time-btn {
+    background: linear-gradient(135deg, 
+        rgba(76, 175, 80, 0.9) 0%, 
+        rgba(56, 142, 60, 0.9) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 4px 16px rgba(76, 175, 80, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ===================================
+   🌙 DARK MODE - เพิ่มเติม
+   =================================== */
+
+body.dark-mode .no-history {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px) saturate(140%);
+    -webkit-backdrop-filter: blur(15px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    color: #666;
+}
+
+body.dark-mode .clear-history-btn {
+    background: linear-gradient(135deg, 
+        rgba(255, 82, 82, 0.8) 0%, 
+        rgba(244, 67, 54, 0.8) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 
+        0 4px 15px rgba(244, 67, 54, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .grow-btn {
+    background: linear-gradient(135deg, 
+        rgba(0, 230, 118, 0.8) 0%, 
+        rgba(0, 200, 83, 0.8) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 
+        0 4px 16px rgba(0, 230, 118, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .grow-btn.growing {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.8) 0%, 
+        rgba(255, 160, 0, 0.8) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 
+        0 4px 16px rgba(255, 193, 7, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .temp-item {
+    background: linear-gradient(135deg, 
+        rgba(102, 187, 106, 0.7) 0%, 
+        rgba(76, 175, 80, 0.7) 100%);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(76, 175, 80, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .confirm-time-btn {
+    background: linear-gradient(135deg, 
+        rgba(76, 175, 80, 0.8) 0%, 
+        rgba(56, 142, 60, 0.8) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 
+        0 4px 16px rgba(76, 175, 80, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+/* ต่อด้วย .settings-item ที่มีอยู่เดิม... */
 
 .settings-item {
     padding: 16px;
@@ -2180,14 +2673,15 @@ function updateExampleText() {
     const harvestExampleText = document.getElementById('harvest-example-text');
     const fertilizerExampleText = document.getElementById('fertilizer-example-text');
     
-    // เช็คว่า elements โหลดเสร็จแล้วหรือยัง
+    // ⭐ เพิ่มการเช็คว่า elements โหลดเสร็จหรือยัง
     if (!harvestDays || !harvestTime || 
         !fertilizerDays || !fertilizerTime ||
         !harvestExampleText || !fertilizerExampleText) {
+        console.log('⏳ รอ elements โหลด...');
         return;
     }
     
-    // ✅ อัพเดทข้อความตัวอย่างตามค่าที่เลือก
+    // ✅ อัพเดทข้อความตัวอย่างทันที
     harvestExampleText.textContent = 
         `${harvestDays.value} วัน เวลา ${harvestTime.value} น.`;
     
@@ -2420,88 +2914,7 @@ async function confirmTimeSettings() {
         }
 
 // เพิ่มฟังก์ชันนี้แทน (ตรงก่อนบรรทัด loadDarkMode())
-async function confirmTimeSettings() {
-    const harvestDays = parseInt(document.getElementById('harvest-days').value);
-    const harvestTime = document.getElementById('harvest-time').value;
-    const fertilizerDays = parseInt(document.getElementById('fertilizer-days').value);
-    const fertilizerTime = document.getElementById('fertilizer-time').value;
-    
-    // ตรวจสอบความถูกต้อง
-    if (isNaN(harvestDays) || harvestDays < 0 || harvestDays > 30) {
-        alert('❌ กรุณาระบุวันเก็บเกี่ยวระหว่าง 0-30 วัน');
-        return;
-    }
-    
-    if (isNaN(fertilizerDays) || fertilizerDays < 0 || fertilizerDays > 30) {
-        alert('❌ กรุณาระบุวันใส่ปุ๋ยระหว่าง 0-30 วัน');
-        return;
-    }
-    
-    // ตรวจสอบรูปแบบเวลา
-    const timeRegex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
-    if (!timeRegex.test(harvestTime)) {
-        alert('❌ กรุณาระบุเวลาเก็บเกี่ยวในรูปแบบ HH:MM (เช่น 14:30)');
-        return;
-    }
-    
-    if (!timeRegex.test(fertilizerTime)) {
-        alert('❌ กรุณาระบุเวลาใส่ปุ๋ยในรูปแบบ HH:MM (เช่น 14:30)');
-        return;
-    }
-    
-    // แสดง Confirm Dialog
-    const confirmed = await showConfirm(
-        '✅ ยืนยันการตั้งค่า',
-        `คุณต้องการบันทึกการตั้งค่าเวลาใหม่ใช่หรือไม่?\n\n` +
-        `🌱 เก็บเกี่ยว: ${harvestDays} วัน เวลา ${harvestTime} น.\n` +
-        `🌾 ใส่ปุ๋ย: ${fertilizerDays} วัน เวลา ${fertilizerTime} น.`,
-        { icon: '✅', type: 'normal' }
-    );
-    
-    if (confirmed) {
-        // บันทึกการตั้งค่า
-        timeSettings.harvestDays = harvestDays;
-        timeSettings.harvestTime = harvestTime;
-        timeSettings.fertilizerDays = fertilizerDays;
-        timeSettings.fertilizerTime = fertilizerTime;
-        
-        saveTimeSettings();
-        
-        // แสดงข้อความสำเร็จ
-        console.log('✅ บันทึกการตั้งค่าเวลาสำเร็จ:', timeSettings);
-        
-        // เล่นเสียงสำเร็จ
-        if (notificationSettings.sound) {
-            playNotificationSound();
-        }
-        
-        // แสดงข้อความแจ้งเตือน
-        const container = document.getElementById('alert-container');
-        const alertId = `alert-success-${Date.now()}`;
-        
-        const alertHtml = `
-            <div class="alert-banner harvest" id="${alertId}" style="animation: slideIn 0.3s;">
-                <div class="alert-icon">✅</div>
-                <div class="alert-content">
-                    <div class="alert-title">บันทึกสำเร็จ!</div>
-                    <div class="alert-text">ตั้งค่าเวลาเรียบร้อยแล้ว</div>
-                </div>
-                <button class="alert-close" onclick="document.getElementById('${alertId}').remove()">×</button>
-            </div>
-        `;
-        
-        container.insertAdjacentHTML('beforeend', alertHtml);
-        
-        // ลบ alert หลัง 3 วินาที
-        setTimeout(() => {
-            const alert = document.getElementById(alertId);
-            if (alert) {
-                alert.style.animation = 'slideIn 0.3s reverse';
-                setTimeout(() => alert.remove(), 300);
-            }
-        }, 3000);
-    }
-}
+
         // เล่นเสียงแจ้งเตือน
         function playNotificationSound() {
             if (notificationSettings.sound) {
@@ -2572,16 +2985,18 @@ async function confirmTimeSettings() {
             }
         }
 
-        // Custom Confirm Dialog
+// Custom Confirm Dialog (แก้ไขสำหรับ iOS)
         function showConfirm(title, message, options = {}) {
             return new Promise((resolve) => {
                 const overlay = document.getElementById('confirm-overlay');
+                const dialog = overlay.querySelector('.confirm-dialog');
                 const icon = document.getElementById('confirm-icon');
                 const titleEl = document.getElementById('confirm-title');
                 const messageEl = document.getElementById('confirm-message');
                 const cancelBtn = document.getElementById('confirm-cancel');
                 const confirmBtn = document.getElementById('confirm-confirm');
                 
+                // อัพเดทเนื้อหา
                 icon.textContent = options.icon || '❓';
                 icon.className = 'confirm-icon';
                 if (options.type === 'warning') icon.classList.add('warning');
@@ -2596,21 +3011,40 @@ async function confirmTimeSettings() {
                     confirmBtn.classList.add('danger');
                 }
                 
-                overlay.classList.add('show');
+                // ✅ แสดง overlay และ dialog แยกกัน
+                overlay.style.display = 'flex';
+                
+                // บังคับให้ browser render ก่อน
+                overlay.offsetHeight;
+                
+                // ✅ ใช้ requestAnimationFrame เพื่อให้แน่ใจว่า render เสร็จแล้ว
+                requestAnimationFrame(() => {
+                    overlay.classList.add('show');
+                    
+                    // เพิ่ม animation สำหรับ dialog
+                    dialog.style.animation = 'popIn 0.3s forwards';
+                });
                 
                 const handleConfirm = () => {
                     overlay.classList.remove('show');
-                    cleanup();
-                    resolve(true);
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        cleanup();
+                        resolve(true);
+                    }, 300);
                 };
                 
                 const handleCancel = () => {
                     overlay.classList.remove('show');
-                    cleanup();
-                    resolve(false);
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        cleanup();
+                        resolve(false);
+                    }, 300);
                 };
                 
                 const cleanup = () => {
+                    dialog.style.animation = '';
                     confirmBtn.removeEventListener('click', handleConfirm);
                     cancelBtn.removeEventListener('click', handleCancel);
                     overlay.removeEventListener('click', handleOverlayClick);
@@ -3904,9 +4338,7 @@ async function initializeNotifications() {
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('📱 กำลังโหลดระบบ...');
     
-    // 🔄 เคลียร์ข้อมูลเก่า (ทำครั้งเดียว)
     resetTimeSettingsOnce();
-    
     
     // 1️⃣ โหลดการตั้งค่าพื้นฐาน
     loadDarkMode(); 
@@ -3915,25 +4347,52 @@ document.addEventListener('DOMContentLoaded', async function() {
     loadFertilizerHistory();
     updateTime();
     loadNotificationSettings();
-    loadTimeSettings(); // <- จะโหลดค่าที่บันทึกถูกต้องแล้ว
+    loadTimeSettings();
     loadNotificationState();
-	loadTemperatureWarnings();
+    loadTemperatureWarnings();
     
     // 2️⃣ เริ่มต้นระบบ Web Notification
     await initializeNotifications();
     
-    // 3️⃣ เพิ่ม Event Listeners สำหรับอัพเดทตัวอย่างเวลา
-    const harvestTimeInput = document.getElementById('harvest-time');
-    const fertilizerTimeInput = document.getElementById('fertilizer-time');
-    const harvestDaysSelect = document.getElementById('harvest-days');
-    const fertilizerDaysSelect = document.getElementById('fertilizer-days');
+    // ⭐ 3️⃣ เพิ่ม Event Listeners สำหรับอัพเดทตัวอย่างแบบ real-time
+    const harvestDays = document.getElementById('harvest-days');
+    const harvestTime = document.getElementById('harvest-time');
+    const fertilizerDays = document.getElementById('fertilizer-days');
+    const fertilizerTime = document.getElementById('fertilizer-time');
     
-    if (harvestTimeInput) harvestTimeInput.addEventListener('change', updateExampleText);
-    if (fertilizerTimeInput) fertilizerTimeInput.addEventListener('change', updateExampleText);
-    if (harvestDaysSelect) harvestDaysSelect.addEventListener('change', updateExampleText);
-    if (fertilizerDaysSelect) fertilizerDaysSelect.addEventListener('change', updateExampleText);
+    if (harvestDays) {
+        harvestDays.addEventListener('change', () => {
+            console.log('📅 เปลี่ยนวันเก็บเกี่ยว:', harvestDays.value);
+            updateExampleText();
+        });
+    }
     
-    updateExampleText();
+    if (harvestTime) {
+        harvestTime.addEventListener('change', () => {
+            console.log('🕐 เปลี่ยนเวลาเก็บเกี่ยว:', harvestTime.value);
+            updateExampleText();
+        });
+    }
+    
+    if (fertilizerDays) {
+        fertilizerDays.addEventListener('change', () => {
+            console.log('📅 เปลี่ยนวันใส่ปุ๋ย:', fertilizerDays.value);
+            updateExampleText();
+        });
+    }
+    
+    if (fertilizerTime) {
+        fertilizerTime.addEventListener('change', () => {
+            console.log('🕐 เปลี่ยนเวลาใส่ปุ๋ย:', fertilizerTime.value);
+            updateExampleText();
+        });
+    }
+    
+    // ⭐ เรียกใช้ครั้งแรกหลังจาก elements พร้อม
+    setTimeout(() => {
+        updateExampleText();
+        console.log('✅ อัพเดทข้อความตัวอย่างครั้งแรก');
+    }, 100);
     
     // 4️⃣ เริ่มต้นเชื่อมต่อ Blynk
     console.log('🚀 กำลังเชื่อมต่อ Blynk...');
