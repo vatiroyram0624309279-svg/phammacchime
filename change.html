@@ -1283,7 +1283,7 @@ body.dark-mode .temp-item:not(.cold):not(.hot) {
 }
 
 body.dark-mode {
-    background: url('https://i.ibb.co/whQnMYfV/dark-black-gray-blurred-background-has-little-abstract-light-soft-background-wallpaperdesigngraphic.avif') center/cover fixed;
+    background: url('https://i.ibb.co/HTk3YNtv/images.jpg') center/cover fixed;
 }
 
 body.dark-mode .confirm-overlay {
@@ -1940,11 +1940,22 @@ body.dark-mode .settings-content {
         <div class="switch-icon">💡</div>
         <div class="switch-info">
             <div class="switch-label">ไฟ</div>
+            <div class="switch-pin" id="light-mode-display">โหมด: AUTO</div>
         </div>
     </div>
-    <div class="toggle light" id="light-toggle-menu" onclick="toggleLightMenu()" style="cursor: pointer;">
+    
+    <!-- Toggle แสดงสถานะ (ไม่ให้กด) -->
+    <div class="toggle light" id="light-status-toggle" style="pointer-events: none; opacity: 0.7;">
         <div class="toggle-thumb"></div>
     </div>
+    
+    <!-- ปุ่มสลับโหมด -->
+    <button onclick="toggleLightMode()" 
+            style="padding: 8px 16px; background: linear-gradient(135deg, #FDD835 0%, #F9A825 100%); 
+                   color: white; border: none; border-radius: 8px; font-weight: 600; 
+                   font-size: 12px; cursor: pointer; margin-left: 8px;">
+        <span id="light-mode-btn">AUTO</span>
+    </button>
 </div>
 
 <div class="switch-item oxygen" style="margin-bottom: 12px;">
@@ -1953,11 +1964,22 @@ body.dark-mode .settings-content {
         <div class="switch-icon">💨</div>
         <div class="switch-info">
             <div class="switch-label">ออกซิเจน</div>
+            <div class="switch-pin" id="oxygen-mode-display">โหมด: AUTO</div>
         </div>
     </div>
-    <div class="toggle oxygen active" id="oxygen-toggle-menu" onclick="toggleOxygenMenu()" style="cursor: pointer;">
+    
+    <!-- Toggle แสดงสถานะ (ไม่ให้กด) -->
+    <div class="toggle oxygen active" id="oxygen-status-toggle" style="pointer-events: none; opacity: 0.7;">
         <div class="toggle-thumb"></div>
     </div>
+    
+    <!-- ปุ่มสลับโหมด -->
+    <button onclick="toggleOxygenMode()" 
+            style="padding: 8px 16px; background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%); 
+                   color: white; border: none; border-radius: 8px; font-weight: 600; 
+                   font-size: 12px; cursor: pointer; margin-left: 8px;">
+        <span id="oxygen-mode-btn">AUTO</span>
+    </button>
 </div>
             </div>
 
@@ -2620,7 +2642,36 @@ function sendWebNotification(title, message, icon = '🌱') {
                 console.log('☀️ โหมดสว่าง: เปิด');
             }
         }
-
+// ✅ ฟังก์ชัน Sync Toggle กับ LED จริง
+function syncToggleWithLED() {
+    // 💡 ไฟ
+    const lightLed = document.getElementById('light-led-menu');
+    const lightToggle = document.getElementById('light-toggle-menu');
+    
+    if (lightLed && lightToggle) {
+        const isLightOn = !lightLed.classList.contains('off');
+        
+        if (isLightOn) {
+            lightToggle.classList.add('active');
+        } else {
+            lightToggle.classList.remove('active');
+        }
+    }
+    
+    // 💨 ออกซิเจน
+    const oxygenLed = document.getElementById('oxygen-led-menu');
+    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
+    
+    if (oxygenLed && oxygenToggle) {
+        const isOxygenOn = !oxygenLed.classList.contains('off');
+        
+        if (isOxygenOn) {
+            oxygenToggle.classList.add('active');
+        } else {
+            oxygenToggle.classList.remove('active');
+        }
+    }
+}
         // โหลดการตั้งค่าโหมดมืด
         function loadDarkMode() {
             const savedMode = localStorage.getItem('darkMode');
@@ -2979,7 +3030,126 @@ async function confirmTimeSettings() {
         }
 
 // เพิ่มฟังก์ชันนี้แทน (ตรงก่อนบรรทัด loadDarkMode())
+// ✅ ระบบจัดการโหมดไฟ
+let lightMode = 'AUTO'; // AUTO, MANUAL_ON, MANUAL_OFF
 
+function toggleLightMode() {
+    if (emergencyStop) return;
+    
+    // สลับโหมด: AUTO → MANUAL_ON → MANUAL_OFF → AUTO
+    if (lightMode === 'AUTO') {
+        lightMode = 'MANUAL_ON';
+        sendToBlynk('V24', 1);
+        console.log('💡 ไฟ: MANUAL ON');
+    } else if (lightMode === 'MANUAL_ON') {
+        lightMode = 'MANUAL_OFF';
+        sendToBlynk('V24', 0);
+        console.log('💡 ไฟ: MANUAL OFF');
+    } else {
+        lightMode = 'AUTO';
+        sendToBlynk('V24', 2); // ส่ง 2 = AUTO (ต้องแก้ Arduino ด้วย)
+        console.log('💡 ไฟ: AUTO');
+    }
+    
+    updateLightModeUI();
+}
+
+function updateLightModeUI() {
+    const modeBtn = document.getElementById('light-mode-btn');
+    const modeDisplay = document.getElementById('light-mode-display');
+    
+    if (modeBtn && modeDisplay) {
+        if (lightMode === 'AUTO') {
+            modeBtn.textContent = 'AUTO';
+            modeDisplay.textContent = 'โหมด: AUTO';
+            modeBtn.style.background = 'linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%)';
+        } else if (lightMode === 'MANUAL_ON') {
+            modeBtn.textContent = 'เปิด';
+            modeDisplay.textContent = 'โหมด: บังคับเปิด';
+            modeBtn.style.background = 'linear-gradient(135deg, #FDD835 0%, #F9A825 100%)';
+        } else {
+            modeBtn.textContent = 'ปิด';
+            modeDisplay.textContent = 'โหมด: บังคับปิด';
+            modeBtn.style.background = 'linear-gradient(135deg, #9E9E9E 0%, #757575 100%)';
+        }
+    }
+}
+
+// ✅ ระบบจัดการโหมดออกซิเจน
+let oxygenMode = 'AUTO'; // AUTO, MANUAL_ON, MANUAL_OFF
+
+function toggleOxygenMode() {
+    if (emergencyStop) return;
+    
+    // สลับโหมด: AUTO → MANUAL_ON → MANUAL_OFF → AUTO
+    if (oxygenMode === 'AUTO') {
+        oxygenMode = 'MANUAL_ON';
+        sendToBlynk('V25', 1);
+        console.log('💨 ออกซิเจน: MANUAL ON');
+    } else if (oxygenMode === 'MANUAL_ON') {
+        oxygenMode = 'MANUAL_OFF';
+        sendToBlynk('V25', 0);
+        console.log('💨 ออกซิเจน: MANUAL OFF');
+    } else {
+        oxygenMode = 'AUTO';
+        sendToBlynk('V25', 2);
+        console.log('💨 ออกซิเจน: AUTO');
+    }
+    
+    updateOxygenModeUI();
+}
+
+function updateOxygenModeUI() {
+    const modeBtn = document.getElementById('oxygen-mode-btn');
+    const modeDisplay = document.getElementById('oxygen-mode-display');
+    
+    if (modeBtn && modeDisplay) {
+        if (oxygenMode === 'AUTO') {
+            modeBtn.textContent = 'AUTO';
+            modeDisplay.textContent = 'โหมด: AUTO';
+            modeBtn.style.background = 'linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%)';
+        } else if (oxygenMode === 'MANUAL_ON') {
+            modeBtn.textContent = 'เปิด';
+            modeDisplay.textContent = 'โหมด: บังคับเปิด';
+            modeBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)';
+        } else {
+            modeBtn.textContent = 'ปิด';
+            modeDisplay.textContent = 'โหมด: บังคับปิด';
+            modeBtn.style.background = 'linear-gradient(135deg, #9E9E9E 0%, #757575 100%)';
+        }
+    }
+}
+
+// ✅ Sync Toggle กับ LED (ไม่เปลี่ยนแปลง)
+function syncToggleWithLED() {
+    // 💡 ไฟ
+    const lightLed = document.getElementById('light-led-menu');
+    const lightToggle = document.getElementById('light-status-toggle');
+    
+    if (lightLed && lightToggle) {
+        const isLightOn = !lightLed.classList.contains('off');
+        
+        if (isLightOn) {
+            lightToggle.classList.add('active');
+        } else {
+            lightToggle.classList.remove('active');
+        }
+    }
+    
+    // 💨 ออกซิเจน
+    const oxygenLed = document.getElementById('oxygen-led-menu');
+    const oxygenToggle = document.getElementById('oxygen-status-toggle');
+    
+    if (oxygenLed && oxygenToggle) {
+        const isOxygenOn = !oxygenLed.classList.contains('off');
+        
+        if (isOxygenOn) {
+            oxygenToggle.classList.add('active');
+        } else {
+            oxygenToggle.classList.remove('active');
+        }
+    }
+}
         // เล่นเสียงแจ้งเตือน
         function playNotificationSound() {
             if (notificationSettings.sound) {
@@ -3755,6 +3925,10 @@ function displayData(data) {
     
     updateLEDStatus(data);
     syncInitialState(data);
+	
+	syncToggleWithLED();
+
+
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('sidebar').style.display = 'block';
@@ -3784,6 +3958,8 @@ function displayData(data) {
                     oxygenLed.classList.add('off');
                 }
             }
+			syncToggleWithLED();
+
         }
 
         function updateWaterStatus(pondNum, value) {
