@@ -1283,7 +1283,7 @@ body.dark-mode .temp-item:not(.cold):not(.hot) {
 }
 
 body.dark-mode {
-    background: url('https://i.ibb.co/qFpvskFp/dark-green-blue-grainy-gradient-260nw-2628008543.jpg') center/cover fixed;
+    background: url('https://i.ibb.co/ccYrj554/Chat-GPT-Image-21-2569-20-54-24.png') center/cover fixed;
     position: relative;
 }
 
@@ -1294,7 +1294,7 @@ body.dark-mode::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://i.ibb.co/qFpvskFp/dark-green-blue-grainy-gradient-260nw-2628008543.jpg') center/cover fixed;
+    background: url('https://i.ibb.co/ccYrj554/Chat-GPT-Image-21-2569-20-54-24.png') center/cover fixed;
     filter: blur(20px);
     z-index: -1;
 }
@@ -1881,6 +1881,31 @@ body.dark-mode .settings-option-label {
 body.dark-mode .settings-content {
     border-top-color: rgba(255, 255, 255, 0.1);
 }
+/* ===================================
+   🎨 ปุ่มควบคุมโหมด
+   =================================== */
+
+.switch-item button {
+    transition: all 0.3s ease;
+}
+
+.switch-item button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.switch-item button:active {
+    transform: translateY(0);
+}
+
+/* โหมดมืด */
+body.dark-mode .switch-item button {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+}
+
+body.dark-mode .switch-item button:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8) !important;
+}
     </style>
 </head><body>
     <button class="hamburger-btn" id="hamburger-btn" onclick="toggleSidebar()">
@@ -1943,61 +1968,73 @@ body.dark-mode .settings-content {
                 </button>
             </div>
 
-            <!-- การควบคุม -->
-            <div class="sidebar-section" id="section-control">
-                <div class="sidebar-header">
-                    <span>🎮</span>
-                    <span>การควบคุม</span>
-                </div>
-                
-<div class="switch-item light" style="margin-bottom: 12px;">
-    <div class="switch-left">
-        <div class="led-circle off" id="light-led-menu"></div>
-        <div class="switch-icon">💡</div>
-        <div class="switch-info">
-            <div class="switch-label">ไฟ</div>
-            <div class="switch-pin" id="light-mode-display">โหมด: AUTO</div>
-        </div>
-    </div>
-    
-    <!-- Toggle แสดงสถานะ (ไม่ให้กด) -->
-    <div class="toggle light" id="light-status-toggle" style="pointer-events: none; opacity: 0.7;">
-        <div class="toggle-thumb"></div>
-    </div>
-    
-    <!-- ปุ่มสลับโหมด -->
-    <button onclick="toggleLightMode()" 
-            style="padding: 8px 16px; background: linear-gradient(135deg, #FDD835 0%, #F9A825 100%); 
-                   color: white; border: none; border-radius: 8px; font-weight: 600; 
-                   font-size: 12px; cursor: pointer; margin-left: 8px;">
-        <span id="light-mode-btn">AUTO</span>
-    </button>
-</div>
 
-<div class="switch-item oxygen" style="margin-bottom: 12px;">
-    <div class="switch-left">
-        <div class="led-circle" id="oxygen-led-menu"></div>
-        <div class="switch-icon">💨</div>
-        <div class="switch-info">
-            <div class="switch-label">ออกซิเจน</div>
-            <div class="switch-pin" id="oxygen-mode-display">โหมด: AUTO</div>
+<!-- การควบคุม -->
+<div class="sidebar-section" id="section-control">
+    <div class="sidebar-header">
+        <span>🎮</span>
+        <span>การควบคุม</span>
+    </div>
+    
+    <!-- แสดงสถานะอุปกรณ์ -->
+    <div class="led-item" style="margin-bottom: 12px;">
+        <div class="led-left">
+            <div class="led-circle off" id="light-led-menu"></div>
+            <div class="led-info">
+                <div class="led-label">💡 ไฟ</div>
+                <div style="font-size: 12px; color: #666; margin-top: 4px;" id="light-mode-display">โหมด: AUTO</div>
+            </div>
+        </div>
+        <button onclick="toggleLightMode()" 
+                style="padding: 8px 16px; 
+                       background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%); 
+                       color: white; 
+                       border: none; 
+                       border-radius: 8px; 
+                       font-weight: 600; 
+                       font-size: 12px; 
+                       cursor: pointer; 
+                       box-shadow: 0 2px 8px rgba(100, 181, 246, 0.4);
+                       transition: all 0.3s;">
+            <span id="light-mode-btn">AUTO</span>
+        </button>
+    </div>
+
+    <div class="led-item">
+        <div class="led-left">
+            <div class="led-circle" id="oxygen-led-menu"></div>
+            <div class="led-info">
+                <div class="led-label">💨 ออกซิเจน</div>
+                <div style="font-size: 12px; color: #666; margin-top: 4px;" id="oxygen-mode-display">โหมด: AUTO</div>
+            </div>
+        </div>
+        <button onclick="toggleOxygenMode()" 
+                style="padding: 8px 16px; 
+                       background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%); 
+                       color: white; 
+                       border: none; 
+                       border-radius: 8px; 
+                       font-weight: 600; 
+                       font-size: 12px; 
+                       cursor: pointer;
+                       box-shadow: 0 2px 8px rgba(100, 181, 246, 0.4);
+                       transition: all 0.3s;">
+            <span id="oxygen-mode-btn">AUTO</span>
+        </button>
+    </div>
+    
+    <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border-radius: 10px; border: 2px solid #64B5F6;">
+        <div style="font-size: 11px; color: #1976D2; line-height: 1.6;">
+            💡 <strong>คำแนะนำ:</strong><br>
+            • <strong>AUTO</strong>: ควบคุมอัตโนมัติตามเงื่อนไข<br>
+            • <strong>เปิด</strong>: บังคับเปิดตลอดเวลา<br>
+            • <strong>ปิด</strong>: บังคับปิดตลอดเวลา
         </div>
     </div>
-    
-    <!-- Toggle แสดงสถานะ (ไม่ให้กด) -->
-    <div class="toggle oxygen active" id="oxygen-status-toggle" style="pointer-events: none; opacity: 0.7;">
-        <div class="toggle-thumb"></div>
-    </div>
-    
-    <!-- ปุ่มสลับโหมด -->
-    <button onclick="toggleOxygenMode()" 
-            style="padding: 8px 16px; background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%); 
-                   color: white; border: none; border-radius: 8px; font-weight: 600; 
-                   font-size: 12px; cursor: pointer; margin-left: 8px;">
-        <span id="oxygen-mode-btn">AUTO</span>
-    </button>
 </div>
-            </div>
+        
+    </div>
+</div>
 
             <!-- ตั้งค่า -->
             <div class="sidebar-section" id="section-settings">
@@ -2005,7 +2042,7 @@ body.dark-mode .settings-content {
                     <span>⚙️</span>
                     <span>ตั้งค่า</span>
                 </div>
-                
+        
                 <!-- โหมดมืด -->
                 <div class="switch-item" style="margin-bottom: 12px; background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border-color: #64B5F6;">
                     <div class="switch-left">
@@ -2194,7 +2231,7 @@ body.dark-mode .settings-content {
 </div>
 <div style="margin-top: 8px; padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; font-size: 11px; color: #E65100;">
     💡 นับจากวันที่<strong>ปลูก</strong>ไปอีก <strong id="fertilizer-example-text">7 วัน เวลา 14:00 น.</strong>
-	</div>
+</div>
 
         </div>
 
@@ -2400,15 +2437,16 @@ body.dark-mode .settings-content {
                 </div>
                 <div class="led-status" id="water3-status">น้ำเต็ม</div>
             </div>
-            <div class="led-item">
-                <div class="led-left">
-                    <div class="led-circle" id="water4-led"></div>
-                    <div class="led-info">
-                        <div class="led-label">🪣 ถังพักน้ำ</div>
-                    </div>
-                </div>
-                <div class="led-status" id="water4-status">น้ำเต็ม</div>
-            </div>
+<div class="led-item">
+    <div class="led-left">
+        <div class="led-circle" id="water4-led"></div>
+        <div class="led-info">
+            <div class="led-label">🪣 ถังพักน้ำ</div>
+        </div>
+    </div>
+    <div class="led-status" id="water4-status">น้ำเต็ม</div>
+</div>
+
         </div>
 
         <div class="card">
@@ -2595,35 +2633,7 @@ function sendWebNotification(title, message, icon = '🌱') {
             }
         }
 // ✅ ฟังก์ชัน Sync Toggle กับ LED จริง
-function syncToggleWithLED() {
-    // 💡 ไฟ
-    const lightLed = document.getElementById('light-led-menu');
-    const lightToggle = document.getElementById('light-toggle-menu');
-    
-    if (lightLed && lightToggle) {
-        const isLightOn = !lightLed.classList.contains('off');
-        
-        if (isLightOn) {
-            lightToggle.classList.add('active');
-        } else {
-            lightToggle.classList.remove('active');
-        }
-    }
-    
-    // 💨 ออกซิเจน
-    const oxygenLed = document.getElementById('oxygen-led-menu');
-    const oxygenToggle = document.getElementById('oxygen-toggle-menu');
-    
-    if (oxygenLed && oxygenToggle) {
-        const isOxygenOn = !oxygenLed.classList.contains('off');
-        
-        if (isOxygenOn) {
-            oxygenToggle.classList.add('active');
-        } else {
-            oxygenToggle.classList.remove('active');
-        }
-    }
-}
+
         // โหลดการตั้งค่าโหมดมืด
         function loadDarkMode() {
             const savedMode = localStorage.getItem('darkMode');
@@ -3583,69 +3593,8 @@ function loadTemperatureWarnings() {
             event.target.closest('.sidebar-menu-item').classList.add('active');
         }
 
-        function syncControls(source, isActive, type) {
-            if (type === 'light') {
-                const menuToggle = document.getElementById('light-toggle-menu');
-                const menuMode = document.getElementById('light-mode-menu');
-                
-                menuToggle.classList.toggle('active', isActive);
-                menuMode.textContent = isActive ? 'Manual' : 'Auto';
-} else if (type === 'oxygen') {
-    const menuToggle = document.getElementById('oxygen-toggle-menu');
-    const menuMode = document.getElementById('oxygen-mode-menu');
-    
-    menuToggle.classList.toggle('active', isActive);
-    menuMode.textContent = isActive ? 'เปิด' : 'ปิด';  // ← แก้เป็น "เปิด/ปิด"
-}
-		else if (type.startsWith('pump')) {
-                const pumpNum = type.replace('pump', '');
-                const mainToggle = document.getElementById(`pump${pumpNum}-toggle`);
-                const mainMode = document.getElementById(`pump${pumpNum}-mode`);
-                
-                mainToggle.classList.toggle('active', isActive);
-                mainMode.textContent = isActive ? 'บังคับเปิด' : 'Auto';
-            }
-        }
 
-        function toggleLightMenu() {
-            if (emergencyStop) return;
-            
-            const toggle = document.getElementById('light-toggle-menu');
-            const menuMode = document.getElementById('light-mode-menu');
-            
-            toggle.classList.toggle('active');
-            
-            if (toggle.classList.contains('active')) {
-                menuMode.textContent = 'Manual';
-                sendToBlynk('V24', 1);
-            } else {
-                menuMode.textContent = 'Auto';
-                sendToBlynk('V24', 0);
-            }
-            
-            console.log('💡 ไฟ:', toggle.classList.contains('active') ? 'เปิด' : 'ปิด');
-        }
 
-        function toggleOxygenMenu() {
-            if (emergencyStop) return;
-            
-            const toggle = document.getElementById('oxygen-toggle-menu');
-            const menuMode = document.getElementById('oxygen-mode-menu');
-            const isCurrentlyActive = toggle.classList.contains('active');
-            
-            toggle.classList.toggle('active');
-            const newState = !isCurrentlyActive;
-            
-if (newState) {
-    menuMode.textContent = 'เปิด';  // ← เปลี่ยนเป็น "เปิด"
-    sendToBlynk('V25', 1);
-    console.log('💨 ออกซิเจน: บังคับเปิด');  // ← ข้อความใหม่
-} else {
-    menuMode.textContent = 'ปิด';   // ← เปลี่ยนเป็น "ปิด"
-    sendToBlynk('V25', 0);
-    console.log('💨 ออกซิเจน: ปิด');  // ← ข้อความใหม่
-}
-        }
 
 const demoData = {
     V2: 1,
