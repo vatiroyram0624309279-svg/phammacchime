@@ -3677,48 +3677,69 @@ const demoData = {
             }
         }
 
-        async function fetchBlynkData() {
+async function fetchBlynkData() {
     try {
-		const pins = ['V2', 'V7', 'V6', 'V5', 'V17', 'V16', 'V15', 'V24', 'V25', 'V12', 'V11', 'V10', 'V0', 'V1', 'V22', 'V21', 'V20'];        
-        // เพิ่ม timeout 5 วินาที
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const pins = ['V2', 'V7', 'V6', 'V5', 'V17', 'V16', 'V15', 'V24', 'V25', 'V12', 'V11', 'V10', 'V0', 'V1', 'V22', 'V21', 'V20'];
         
-        const response = await fetch(
-            `${BLYNK_SERVER}/external/api/get?token=${BLYNK_AUTH}&${pins.join('&')}`,
-            { 
-                method: 'GET',
-                signal: controller.signal
+        // ⭐ เพิ่ม timeout เป็น 10 วินาที (เดิม 5 วินาที)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        
+        // ⭐ วิธีที่ 1: ดึงข้อมูลทีละ pin (แนะนำ)
+        const data = {};
+        let successCount = 0;
+        
+        for (const pin of pins) {
+            try {
+                const response = await fetch(
+                    `${BLYNK_SERVER}/external/api/get?token=${BLYNK_AUTH}&${pin}`,
+                    { 
+                        method: 'GET',
+                        signal: controller.signal,
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+                
+                if (response.ok) {
+                    const value = await response.json();
+                    data[pin] = value;
+                    successCount++;
+                    console.log(`✅ ${pin}: ${value}`);
+                } else {
+                    console.warn(`⚠️ ${pin}: HTTP ${response.status}`);
+                    data[pin] = 0; // ใช้ค่า default
+                }
+            } catch (error) {
+                console.warn(`⚠️ ${pin}: ${error.message}`);
+                data[pin] = 0; // ใช้ค่า default
             }
-        );
+            
+            // หน่วงเวลา 50ms ระหว่าง request เพื่อไม่ให้ถูก rate limit
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
         
         clearTimeout(timeoutId);
         
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const data = await response.json();
-        
-        // ตรวจสอบว่าได้ข้อมูลมาจริง
-        if (!data || Object.keys(data).length === 0) {
-            throw new Error('No data received');
+        // ✅ ถ้าได้ข้อมูลอย่างน้อย 50% ถือว่าสำเร็จ
+        if (successCount >= pins.length * 0.5) {
+            if (demoMode) {
+                demoMode = false;
+                console.log(`✅ เชื่อมต่อ Blynk สำเร็จ! (ได้ ${successCount}/${pins.length} pins)`);
+            }
+            displayData(data);
+        } else {
+            throw new Error(`Failed to fetch enough data (${successCount}/${pins.length} pins)`);
         }
-        
-        // เชื่อมต่อสำเร็จ
-        if (demoMode) {
-            demoMode = false;
-            console.log('✅ เชื่อมต่อ Blynk สำเร็จ!');
-        }
-        
-        displayData(data);
         
     } catch (error) {
         console.error('❌ Error fetching Blynk data:', error.message);
         
-        // ถ้ายังไม่เคยเข้า demo mode ให้เข้าเลย
         if (!demoMode) {
             enterDemoMode();
         } else {
-            // ถ้าอยู่ demo mode แล้ว ให้อัพเดทข้อมูลสุ่ม
             displayData(demoData);
         }
     }
@@ -4163,7 +4184,7 @@ function checkGrowingTemperatures() {
         const timeSinceLastNotify = now - temperatureWarnings[i].lastNotifyTime;
         
         // ✅ ต้องผ่าน 1 นาทีขั้นต่ำ หรือ 30 นาทีสำหรับแจ้งซ้ำ
-        const shouldNotify = timeSinceLastNotify >= Math.max(NOTIFY_INTERVAL, MIN_NOTIFY_INTERVAL);
+        const shouldNotify = timeSinceLastNotify >= NOTIFY_INTERVAL;
         const wasNormal = !temperatureWarnings[i].shown;
         
         if (isOutOfRange && (wasNormal || shouldNotify)) {
