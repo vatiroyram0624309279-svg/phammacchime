@@ -830,53 +830,7 @@ body.dark-mode::before {
 }
 
 /* Dark Mode */
-/* ⭐ อุณหภูมิต่ำ - Dark Mode */
-body.dark-mode .temp-item.cold {
-    background: linear-gradient(135deg, 
-        rgba(100, 181, 246, 0.8) 0%, 
-        rgba(66, 165, 245, 0.8) 100%);
-    backdrop-filter: blur(25px) saturate(160%);
-    -webkit-backdrop-filter: blur(25px) saturate(160%);
-    box-shadow: 
-        0 4px 12px rgba(66, 165, 245, 0.6),
-        inset 0 1px 1px rgba(255, 255, 255, 0.3);
-}
 
-body.dark-mode .temp-item.cold:hover {
-    box-shadow: 
-        0 6px 16px rgba(66, 165, 245, 0.7),
-        inset 0 1px 1px rgba(255, 255, 255, 0.4);
-}
-
-/* ⭐ อุณหภูมิสูง - Dark Mode */
-body.dark-mode .temp-item.hot {
-    background: linear-gradient(135deg, 
-        rgba(239, 83, 80, 0.8) 0%, 
-        rgba(229, 57, 53, 0.8) 100%);
-    backdrop-filter: blur(25px) saturate(160%);
-    -webkit-backdrop-filter: blur(25px) saturate(160%);
-    box-shadow: 
-        0 4px 12px rgba(239, 83, 80, 0.6),
-        inset 0 1px 1px rgba(255, 255, 255, 0.3);
-}
-
-body.dark-mode .temp-item.hot:hover {
-    box-shadow: 
-        0 6px 16px rgba(239, 83, 80, 0.7),
-        inset 0 1px 1px rgba(255, 255, 255, 0.4);
-}
-
-/* ⭐ อุณหภูมิปกติ - Dark Mode */
-body.dark-mode .temp-item:not(.cold):not(.hot) {
-    background: linear-gradient(135deg, 
-        rgba(102, 187, 106, 0.7) 0%, 
-        rgba(76, 175, 80, 0.7) 100%);
-    backdrop-filter: blur(25px) saturate(160%);
-    -webkit-backdrop-filter: blur(25px) saturate(160%);
-    box-shadow: 
-        0 4px 12px rgba(76, 175, 80, 0.5),
-        inset 0 1px 1px rgba(255, 255, 255, 0.3);
-}
 		.led-item {
             display: flex;
             align-items: center;
@@ -1556,8 +1510,52 @@ body.dark-mode .switch-item.pump {
     border-color: rgba(129, 212, 250, 0.4);
 }
 
-body.dark-mode .temp-item {
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.5);
+/* ⭐ อุณหภูมิต่ำ - Dark Mode (ต้องอยู่หลัง .temp-item ทั่วไป) */
+body.dark-mode .temp-item.cold {
+    background: linear-gradient(135deg, 
+        rgba(100, 181, 246, 0.8) 0%, 
+        rgba(66, 165, 245, 0.8) 100%) !important;
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(66, 165, 245, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+body.dark-mode .temp-item.cold:hover {
+    box-shadow: 
+        0 6px 16px rgba(66, 165, 245, 0.7),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* ⭐ อุณหภูมิสูง - Dark Mode */
+body.dark-mode .temp-item.hot {
+    background: linear-gradient(135deg, 
+        rgba(239, 83, 80, 0.8) 0%, 
+        rgba(229, 57, 53, 0.8) 100%) !important;
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(239, 83, 80, 0.6),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+body.dark-mode .temp-item.hot:hover {
+    box-shadow: 
+        0 6px 16px rgba(239, 83, 80, 0.7),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* ⭐ อุณหภูมิปกติ - Dark Mode */
+body.dark-mode .temp-item:not(.cold):not(.hot) {
+    background: linear-gradient(135deg, 
+        rgba(102, 187, 106, 0.7) 0%, 
+        rgba(76, 175, 80, 0.7) 100%) !important;
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    box-shadow: 
+        0 4px 12px rgba(76, 175, 80, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
 }
 
 body.dark-mode .history-item,
@@ -1568,6 +1566,7 @@ body.dark-mode .fertilizer-item {
 body.dark-mode .no-history {
     color: #666;
 }
+
 body.dark-mode .no-history {
     color: #666;
 }
@@ -1881,6 +1880,133 @@ body.dark-mode .settings-option-label {
 body.dark-mode .settings-content {
     border-top-color: rgba(255, 255, 255, 0.1);
 }
+    /* ===================================
+       🎮 ปุ่มควบคุมไฟและออกซิเจน
+       =================================== */
+    
+    /* ✅ Hover Effect สำหรับปุ่มควบคุม */
+    button[onclick*="toggleLightMode"]:hover,
+    button[onclick*="toggleOxygenMode"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
+    }
+    
+    button[onclick*="toggleLightMode"]:active,
+    button[onclick*="toggleOxygenMode"]:active {
+        transform: translateY(0);
+    }
+    
+    /* ✅ Dark Mode สำหรับปุ่มควบคุม */
+    body.dark-mode button[onclick*="toggleLightMode"],
+    body.dark-mode button[onclick*="toggleOxygenMode"] {
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    body.dark-mode button[onclick*="toggleLightMode"]:hover,
+    body.dark-mode button[onclick*="toggleOxygenMode"]:hover {
+        box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3) !important;
+    }
+    
+    /* ✅ Dark Mode สำหรับ Container */
+    body.dark-mode div[style*="linear-gradient(135deg, rgba(255, 249, 196"] {
+        background: linear-gradient(135deg, rgba(58, 58, 46, 0.35) 0%, rgba(42, 42, 30, 0.35) 100%) !important;
+        border-color: rgba(253, 216, 53, 0.4) !important;
+    }
+    
+    body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] {
+        background: linear-gradient(135deg, rgba(42, 58, 46, 0.35) 0%, rgba(26, 42, 30, 0.35) 100%) !important;
+        border-color: rgba(129, 199, 132, 0.4) !important;
+    }
+    
+    body.dark-mode div[style*="linear-gradient(135deg, rgba(255, 249, 196"] div,
+    body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] div {
+        color: #ffffff !important;
+    }
+/* ===================================
+   🎮 ปุ่มโหมด 3 ปุ่ม
+   =================================== */
+
+.mode-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.mode-btn:active {
+    transform: translateY(0);
+}
+
+/* ✅ สีปุ่ม AUTO - น้ำเงิน */
+.mode-btn-active[id*="auto"] {
+    background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%) !important;
+    color: white !important;
+    box-shadow: 0 3px 10px rgba(66, 165, 245, 0.5) !important;
+}
+
+/* ✅ สีปุ่ม ON (ไฟ) - เหลือง */
+.mode-btn-active[id*="light-btn-on"] {
+    background: linear-gradient(135deg, #FDD835 0%, #F9A825 100%) !important;
+    color: white !important;
+    box-shadow: 0 3px 10px rgba(253, 216, 53, 0.5) !important;
+}
+
+/* ✅ สีปุ่ม ON (ออกซิเจน) - เขียว */
+.mode-btn-active[id*="oxygen-btn-on"] {
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%) !important;
+    color: white !important;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.5) !important;
+}
+
+/* ✅ สีปุ่ม OFF - เทาเข้ม */
+.mode-btn-active[id*="off"] {
+    background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%) !important;
+    color: white !important;
+    box-shadow: 0 3px 10px rgba(158, 158, 158, 0.5) !important;
+}
+
+/* ✅ สีปุ่มไม่ได้เลือก - เทาอ่อน */
+.mode-btn:not(.mode-btn-active) {
+    background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%) !important;
+    color: #666 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ===================================
+   🌙 DARK MODE - ปุ่มโหมด
+   =================================== */
+
+body.dark-mode .mode-btn:not(.mode-btn-active) {
+    background: linear-gradient(135deg, #424242 0%, #303030 100%) !important;
+    color: #999 !important;
+}
+
+body.dark-mode .mode-btn-active {
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-mode .mode-btn:hover {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ✅ Dark Mode - Container */
+body.dark-mode div[style*="linear-gradient(135deg, rgba(255, 249, 196"] {
+    background: linear-gradient(135deg, rgba(58, 58, 46, 0.35) 0%, rgba(42, 42, 30, 0.35) 100%) !important;
+    border-color: rgba(253, 216, 53, 0.4) !important;
+}
+
+body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] {
+    background: linear-gradient(135deg, rgba(42, 58, 46, 0.35) 0%, rgba(26, 42, 30, 0.35) 100%) !important;
+    border-color: rgba(129, 199, 132, 0.4) !important;
+}
+
+body.dark-mode div[style*="linear-gradient(135deg, rgba(255, 249, 196"] div,
+body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] div {
+    color: #ffffff !important;
+}
     </style>
 </head><body>
     <button class="hamburger-btn" id="hamburger-btn" onclick="toggleSidebar()">
@@ -1942,62 +2068,129 @@ body.dark-mode .settings-content {
                     <span>เคลียร์ประวัติทั้งหมด</span>
                 </button>
             </div>
-
-            <!-- การควบคุม -->
-            <div class="sidebar-section" id="section-control">
-                <div class="sidebar-header">
-                    <span>🎮</span>
-                    <span>การควบคุม</span>
-                </div>
-                
-<div class="switch-item light" style="margin-bottom: 12px;">
-    <div class="switch-left">
-        <div class="led-circle off" id="light-led-menu"></div>
-        <div class="switch-icon">💡</div>
-        <div class="switch-info">
-            <div class="switch-label">ไฟ</div>
-            <div class="switch-pin" id="light-mode-display">โหมด: AUTO</div>
-        </div>
+<!-- การควบคุม -->
+<div class="sidebar-section" id="section-control">
+    <div class="sidebar-header">
+        <span>🎮</span>
+        <span>การควบคุม</span>
     </div>
     
-    <!-- Toggle แสดงสถานะ (ไม่ให้กด) -->
-    <div class="toggle light" id="light-status-toggle" style="pointer-events: none; opacity: 0.7;">
-        <div class="toggle-thumb"></div>
-    </div>
-    
-    <!-- ปุ่มสลับโหมด -->
-    <button onclick="toggleLightMode()" 
-            style="padding: 8px 16px; background: linear-gradient(135deg, #FDD835 0%, #F9A825 100%); 
-                   color: white; border: none; border-radius: 8px; font-weight: 600; 
-                   font-size: 12px; cursor: pointer; margin-left: 8px;">
-        <span id="light-mode-btn">AUTO</span>
-    </button>
-</div>
-
-<div class="switch-item oxygen" style="margin-bottom: 12px;">
-    <div class="switch-left">
-        <div class="led-circle" id="oxygen-led-menu"></div>
-        <div class="switch-icon">💨</div>
-        <div class="switch-info">
-            <div class="switch-label">ออกซิเจน</div>
-            <div class="switch-pin" id="oxygen-mode-display">โหมด: AUTO</div>
-        </div>
-    </div>
-    
-    <!-- Toggle แสดงสถานะ (ไม่ให้กด) -->
-    <div class="toggle oxygen active" id="oxygen-status-toggle" style="pointer-events: none; opacity: 0.7;">
-        <div class="toggle-thumb"></div>
-    </div>
-    
-    <!-- ปุ่มสลับโหมด -->
-    <button onclick="toggleOxygenMode()" 
-            style="padding: 8px 16px; background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%); 
-                   color: white; border: none; border-radius: 8px; font-weight: 600; 
-                   font-size: 12px; cursor: pointer; margin-left: 8px;">
-        <span id="oxygen-mode-btn">AUTO</span>
-    </button>
-</div>
+    <!-- ✅ ระบบควบคุมไฟ - 3 ปุ่มแยก -->
+    <div style="padding: 16px; background: linear-gradient(135deg, rgba(255, 249, 196, 0.35) 0%, rgba(255, 245, 157, 0.35) 100%); 
+                border: 2px solid rgba(253, 216, 53, 0.5); border-radius: 16px; margin-bottom: 12px;
+                backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.5);">
+        
+        <!-- Header ไฟ -->
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <div class="led-circle off" id="light-led-menu" 
+                 style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        box-shadow: 0 0 20px rgba(253, 216, 53, 0.8), inset 0 2px 8px rgba(255, 255, 255, 0.3);">
             </div>
+            <div style="flex: 1;">
+                <div style="font-size: 16px; font-weight: 700; color: #333; margin-bottom: 2px;">💡 ไฟ</div>
+                <div style="font-size: 12px; color: #666;" id="light-mode-display">โหมด: AUTO</div>
+            </div>
+        </div>
+        
+        <!-- 3 ปุ่มโหมด -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <!-- ปุ่ม AUTO -->
+            <button onclick="setLightMode('AUTO', event)" id="light-btn-auto"
+                    class="mode-btn mode-btn-active"
+                    style="padding: 10px 8px; border: none; border-radius: 10px; font-weight: 700; 
+                           font-size: 13px; cursor: pointer; transition: all 0.3s;
+                           background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
+                           color: white; box-shadow: 0 3px 10px rgba(66, 165, 245, 0.4);
+                           display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 16px;">🔄</span>
+                <span>AUTO</span>
+            </button>
+            
+            <!-- ปุ่ม ON -->
+            <button onclick="setLightMode('ON', event)" id="light-btn-on"
+                    class="mode-btn"
+                    style="padding: 10px 8px; border: none; border-radius: 10px; font-weight: 700; 
+                           font-size: 13px; cursor: pointer; transition: all 0.3s;
+                           background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+                           color: #666; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                           display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 16px;">💡</span>
+                <span>เปิด</span>
+            </button>
+            
+            <!-- ปุ่ม OFF -->
+            <button onclick="setLightMode('OFF', event)" id="light-btn-off"
+                    class="mode-btn"
+                    style="padding: 10px 8px; border: none; border-radius: 10px; font-weight: 700; 
+                           font-size: 13px; cursor: pointer; transition: all 0.3s;
+                           background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+                           color: #666; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                           display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 16px;">🌑</span>
+                <span>ปิด</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ✅ ระบบควบคุมออกซิเจน - 3 ปุ่มแยก -->
+    <div style="padding: 16px; background: linear-gradient(135deg, rgba(232, 245, 233, 0.35) 0%, rgba(200, 230, 201, 0.35) 100%); 
+                border: 2px solid rgba(129, 199, 132, 0.5); border-radius: 16px; margin-bottom: 12px;
+                backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.5);">
+        
+        <!-- Header ออกซิเจน -->
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <div class="led-circle off" id="oxygen-led-menu" 
+                 style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        box-shadow: 0 0 20px rgba(76, 175, 80, 0.8), inset 0 2px 8px rgba(255, 255, 255, 0.3);">
+            </div>
+            <div style="flex: 1;">
+                <div style="font-size: 16px; font-weight: 700; color: #333; margin-bottom: 2px;">💨 ออกซิเจน</div>
+                <div style="font-size: 12px; color: #666;" id="oxygen-mode-display">โหมด: AUTO</div>
+            </div>
+        </div>
+        
+        <!-- 3 ปุ่มโหมด -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <!-- ปุ่ม AUTO -->
+            <button onclick="setOxygenMode('AUTO', event)" id="oxygen-btn-auto"
+                    class="mode-btn mode-btn-active"
+                    style="padding: 10px 8px; border: none; border-radius: 10px; font-weight: 700; 
+                           font-size: 13px; cursor: pointer; transition: all 0.3s;
+                           background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
+                           color: white; box-shadow: 0 3px 10px rgba(66, 165, 245, 0.4);
+                           display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 16px;">🔄</span>
+                <span>AUTO</span>
+            </button>
+            
+            <!-- ปุ่ม ON -->
+            <button onclick="setOxygenMode('ON', event)" id="oxygen-btn-on"
+                    class="mode-btn"
+                    style="padding: 10px 8px; border: none; border-radius: 10px; font-weight: 700; 
+                           font-size: 13px; cursor: pointer; transition: all 0.3s;
+                           background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+                           color: #666; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                           display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 16px;">💨</span>
+                <span>เปิด</span>
+            </button>
+            
+            <!-- ปุ่ม OFF -->
+            <button onclick="setOxygenMode('OFF', event)" id="oxygen-btn-off"
+                    class="mode-btn"
+                    style="padding: 10px 8px; border: none; border-radius: 10px; font-weight: 700; 
+                           font-size: 13px; cursor: pointer; transition: all 0.3s;
+                           background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+                           color: #666; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                           display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 16px;">🌑</span>
+                <span>ปิด</span>
+            </button>
+        </div>
+    </div>
+</div>
 
             <!-- ตั้งค่า -->
             <div class="sidebar-section" id="section-settings">
@@ -2468,6 +2661,9 @@ body.dark-mode .settings-content {
         let fertilizerHistory = [];
         let demoMode = false;
         let waterStatus = { 1: false, 2: false, 3: false, 4: false };
+		// ⭐ เพิ่มตัวแปรสำหรับโหมดไฟและออกซิเจน
+		let lightMode = 'AUTO';
+		let oxygenMode = 'AUTO';
         let growingStatus = { 
             1: { active: false, startTime: null, minutes: 0, harvestTime: null },
             2: { active: false, startTime: null, minutes: 0, harvestTime: null },
@@ -2529,6 +2725,109 @@ let timeSettings = {
             
             return false;
         }
+		
+		
+function setLightMode(mode, event) {
+	console.log('🔥 setLightMode ถูกเรียก:', mode); // ← เพิ่มนี้
+
+    if (event) event.stopPropagation();
+    if (emergencyStop) return;
+	
+    // ส่งคำสั่งไป Arduino
+    if (mode === 'AUTO') {
+        lightMode = 'AUTO';
+        sendToBlynk('V24', 2);
+        console.log('💡 ไฟ: AUTO');
+    } else if (mode === 'ON') {
+        lightMode = 'MANUAL_ON';
+        sendToBlynk('V24', 1);
+        console.log('💡 ไฟ: MANUAL ON');
+    } else if (mode === 'OFF') {
+        lightMode = 'MANUAL_OFF';
+        sendToBlynk('V24', 0);
+        console.log('💡 ไฟ: MANUAL OFF');
+    }
+    
+    updateLightModeUI();
+}
+
+function updateLightModeUI() {
+    const autoBtn = document.getElementById('light-btn-auto');
+    const onBtn = document.getElementById('light-btn-on');
+    const offBtn = document.getElementById('light-btn-off');
+    const modeDisplay = document.getElementById('light-mode-display');
+    
+    if (!autoBtn || !onBtn || !offBtn) return;
+    
+    // ลบ class active ออกทั้งหมด
+    autoBtn.classList.remove('mode-btn-active');
+    onBtn.classList.remove('mode-btn-active');
+    offBtn.classList.remove('mode-btn-active');
+    
+    // เพิ่ม class active ตามโหมด
+    if (lightMode === 'AUTO') {
+        autoBtn.classList.add('mode-btn-active');
+        modeDisplay.textContent = 'โหมด: AUTO';
+    } else if (lightMode === 'MANUAL_ON') {
+        onBtn.classList.add('mode-btn-active');
+        modeDisplay.textContent = 'โหมด: บังคับเปิด';
+    } else {
+        offBtn.classList.add('mode-btn-active');
+        modeDisplay.textContent = 'โหมด: บังคับปิด';
+    }
+}
+
+// ===================================
+// 🎮 ฟังก์ชันควบคุมโหมดออกซิเจน (3 ปุ่ม)
+// ===================================
+
+function setOxygenMode(mode, event) {
+    if (event) event.stopPropagation();
+    if (emergencyStop) return;
+    
+    // ส่งคำสั่งไป Arduino
+    if (mode === 'AUTO') {
+        oxygenMode = 'AUTO';
+        sendToBlynk('V25', 2);
+        console.log('💨 ออกซิเจน: AUTO');
+    } else if (mode === 'ON') {
+        oxygenMode = 'MANUAL_ON';
+        sendToBlynk('V25', 1);
+        console.log('💨 ออกซิเจน: MANUAL ON');
+    } else if (mode === 'OFF') {
+        oxygenMode = 'MANUAL_OFF';
+        sendToBlynk('V25', 0);
+        console.log('💨 ออกซิเจน: MANUAL OFF');
+    }
+    
+    updateOxygenModeUI();
+}
+
+function updateOxygenModeUI() {
+    const autoBtn = document.getElementById('oxygen-btn-auto');
+    const onBtn = document.getElementById('oxygen-btn-on');
+    const offBtn = document.getElementById('oxygen-btn-off');
+    const modeDisplay = document.getElementById('oxygen-mode-display');
+    
+    if (!autoBtn || !onBtn || !offBtn) return;
+    
+    // ลบ class active ออกทั้งหมด
+    autoBtn.classList.remove('mode-btn-active');
+    onBtn.classList.remove('mode-btn-active');
+    offBtn.classList.remove('mode-btn-active');
+    
+    // เพิ่ม class active ตามโหมด
+    if (oxygenMode === 'AUTO') {
+        autoBtn.classList.add('mode-btn-active');
+        modeDisplay.textContent = 'โหมด: AUTO';
+    } else if (oxygenMode === 'MANUAL_ON') {
+        onBtn.classList.add('mode-btn-active');
+        modeDisplay.textContent = 'โหมด: บังคับเปิด';
+    } else {
+        offBtn.classList.add('mode-btn-active');
+        modeDisplay.textContent = 'โหมด: บังคับปิด';
+    }
+}
 
         // ส่ง Web Notification
 // ส่ง Web Notification (ปรับปรุงใหม่)
@@ -2983,113 +3282,6 @@ async function confirmTimeSettings() {
             console.log('🌾 แจ้งเตือนใส่ปุ๋ย:', notificationSettings.fertilizer ? 'เปิด' : 'ปิด');
         }
 
-// เพิ่มฟังก์ชันนี้แทน (ตรงก่อนบรรทัด loadDarkMode())
-// ✅ ระบบจัดการโหมดไฟ
-let lightMode = 'AUTO'; // AUTO, MANUAL_ON, MANUAL_OFF
-
-function toggleLightMode() {
-    if (emergencyStop) return;
-    
-    // สลับโหมด: AUTO → MANUAL_ON → MANUAL_OFF → AUTO
-    if (lightMode === 'AUTO') {
-        lightMode = 'MANUAL_ON';
-        sendToBlynk('V24', 1);
-        console.log('💡 ไฟ: MANUAL ON');
-    } else if (lightMode === 'MANUAL_ON') {
-        lightMode = 'MANUAL_OFF';
-        sendToBlynk('V24', 0);
-        console.log('💡 ไฟ: MANUAL OFF');
-    } else {
-        lightMode = 'AUTO';
-        sendToBlynk('V24', 2); // ส่ง 2 = AUTO (ต้องแก้ Arduino ด้วย)
-        console.log('💡 ไฟ: AUTO');
-    }
-    
-    updateLightModeUI();
-}
-
-function updateLightModeUI() {
-    const modeBtn = document.getElementById('light-mode-btn');
-    const modeDisplay = document.getElementById('light-mode-display');
-    
-    if (modeBtn && modeDisplay) {
-        if (lightMode === 'AUTO') {
-            modeBtn.textContent = 'AUTO';
-            modeDisplay.textContent = 'โหมด: AUTO';
-            modeBtn.style.background = 'linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%)';
-        } else if (lightMode === 'MANUAL_ON') {
-            modeBtn.textContent = 'เปิด';
-            modeDisplay.textContent = 'โหมด: บังคับเปิด';
-            modeBtn.style.background = 'linear-gradient(135deg, #FDD835 0%, #F9A825 100%)';
-        } else {
-            modeBtn.textContent = 'ปิด';
-            modeDisplay.textContent = 'โหมด: บังคับปิด';
-            modeBtn.style.background = 'linear-gradient(135deg, #9E9E9E 0%, #757575 100%)';
-        }
-    }
-}
-
-// ✅ ระบบจัดการโหมดออกซิเจน
-let oxygenMode = 'AUTO'; // AUTO, MANUAL_ON, MANUAL_OFF
-
-function toggleOxygenMode() {
-    if (emergencyStop) return;
-    
-    // สลับโหมด: AUTO → MANUAL_ON → MANUAL_OFF → AUTO
-    if (oxygenMode === 'AUTO') {
-        oxygenMode = 'MANUAL_ON';
-        sendToBlynk('V25', 1);
-        console.log('💨 ออกซิเจน: MANUAL ON');
-    } else if (oxygenMode === 'MANUAL_ON') {
-        oxygenMode = 'MANUAL_OFF';
-        sendToBlynk('V25', 0);
-        console.log('💨 ออกซิเจน: MANUAL OFF');
-    } else {
-        oxygenMode = 'AUTO';
-        sendToBlynk('V25', 2);
-        console.log('💨 ออกซิเจน: AUTO');
-    }
-    
-    updateOxygenModeUI();
-}
-
-function updateOxygenModeUI() {
-    const modeBtn = document.getElementById('oxygen-mode-btn');
-    const modeDisplay = document.getElementById('oxygen-mode-display');
-    
-    if (modeBtn && modeDisplay) {
-        if (oxygenMode === 'AUTO') {
-            modeBtn.textContent = 'AUTO';
-            modeDisplay.textContent = 'โหมด: AUTO';
-            modeBtn.style.background = 'linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%)';
-        } else if (oxygenMode === 'MANUAL_ON') {
-            modeBtn.textContent = 'เปิด';
-            modeDisplay.textContent = 'โหมด: บังคับเปิด';
-            modeBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)';
-        } else {
-            modeBtn.textContent = 'ปิด';
-            modeDisplay.textContent = 'โหมด: บังคับปิด';
-            modeBtn.style.background = 'linear-gradient(135deg, #9E9E9E 0%, #757575 100%)';
-        }
-    }
-}
-
-// ✅ Sync Toggle กับ LED (ไม่เปลี่ยนแปลง)
-function syncToggleWithLED() {
-    // 💡 ไฟ
-    const lightLed = document.getElementById('light-led-menu');
-    const lightToggle = document.getElementById('light-status-toggle');
-    
-    if (lightLed && lightToggle) {
-        const isLightOn = !lightLed.classList.contains('off');
-        
-        if (isLightOn) {
-            lightToggle.classList.add('active');
-        } else {
-            lightToggle.classList.remove('active');
-        }
-    }
-    
     // 💨 ออกซิเจน
     const oxygenLed = document.getElementById('oxygen-led-menu');
     const oxygenToggle = document.getElementById('oxygen-status-toggle');
