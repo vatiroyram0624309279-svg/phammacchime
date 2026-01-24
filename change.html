@@ -2510,32 +2510,33 @@ body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] div {
             </div>
         </div>
         
-        <div class="timer-card">
-            <div class="card-header">
-                <span>⏱️</span>
-                <span>ระยะเวลาการปลูก</span>
-            </div>
-            <div class="timer-grid">
-                <div class="timer-item inactive" id="timer-item-1">
-                    <div class="timer-label">กระบะที่ 1</div>
-                    <div class="timer-value" id="timer-value-1">00:00:00</div>
-                    <div class="timer-unit">วัน:ชม.:นาที</div>
-                    <div class="timer-status" id="timer-status-1">ยังไม่เริ่ม</div>
-                </div>
-                <div class="timer-item inactive" id="timer-item-2">
-                    <div class="timer-label">กระบะที่ 2</div>
-                    <div class="timer-value" id="timer-value-2">00:00:00</div>
-                    <div class="timer-unit">วัน:ชม.:นาที</div>
-                    <div class="timer-status" id="timer-status-2">ยังไม่เริ่ม</div>
-                </div>
-                <div class="timer-item inactive" id="timer-item-3">
-                    <div class="timer-label">กระบะที่ 3</div>
-                    <div class="timer-value" id="timer-value-3">00:00:00</div>
-                    <div class="timer-unit">วัน:ชม.:นาที</div>
-                    <div class="timer-status" id="timer-status-3">ยังไม่เริ่ม</div>
-                </div>
-            </div>
+<!-- ระยะเวลาการปลูก (แสดงผลเป็น 3, 2, 1 แต่ใช้ ID เดิม) -->
+<div class="timer-card">
+    <div class="card-header">
+        <span>⏱️</span>
+        <span>ระยะเวลาการปลูก</span>
+    </div>
+    <div class="timer-grid">
+        <div class="timer-item inactive" id="timer-item-3">
+            <div class="timer-label">กระบะที่ 3</div>
+            <div class="timer-value" id="timer-value-3">00:00:00</div>
+            <div class="timer-unit">วัน:ชม.:นาที</div>
+            <div class="timer-status" id="timer-status-3">ยังไม่เริ่ม</div>
         </div>
+        <div class="timer-item inactive" id="timer-item-2">
+            <div class="timer-label">กระบะที่ 2</div>
+            <div class="timer-value" id="timer-value-2">00:00:00</div>
+            <div class="timer-unit">วัน:ชม.:นาที</div>
+            <div class="timer-status" id="timer-status-2">ยังไม่เริ่ม</div>
+        </div>
+        <div class="timer-item inactive" id="timer-item-1">
+            <div class="timer-label">กระบะที่ 1</div>
+            <div class="timer-value" id="timer-value-1">00:00:00</div>
+            <div class="timer-unit">วัน:ชม.:นาที</div>
+            <div class="timer-status" id="timer-status-1">ยังไม่เริ่ม</div>
+        </div>
+    </div>
+</div>
 
         <div class="card">
             <div class="card-header">
@@ -2561,96 +2562,98 @@ body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] div {
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <span>💧</span>
-                <span>สถานะระดับน้ำ</span>
-            </div>
-            <div class="led-item">
-                <div class="led-left">
-                    <div class="led-circle" id="water1-led"></div>
-                    <div class="led-info">
-                        <div class="led-label">กระบะที่ 1</div>
-                    </div>
-                </div>
-                <div class="led-status" id="water1-status">น้ำเต็ม</div>
-            </div>
-            <div class="led-item">
-                <div class="led-left">
-                    <div class="led-circle" id="water2-led"></div>
-                    <div class="led-info">
-                        <div class="led-label">กระบะที่ 2</div>
-                    </div>
-                </div>
-                <div class="led-status" id="water2-status">น้ำเต็ม</div>
-            </div>
-            <div class="led-item">
-                <div class="led-left">
-                    <div class="led-circle" id="water3-led"></div>
-                    <div class="led-info">
-                        <div class="led-label">กระบะที่ 3</div>
-                    </div>
-                </div>
-                <div class="led-status" id="water3-status">น้ำเต็ม</div>
-            </div>
-            <div class="led-item">
-                <div class="led-left">
-                    <div class="led-circle" id="water4-led"></div>
-                    <div class="led-info">
-                        <div class="led-label">🪣 ถังพักน้ำ</div>
-                    </div>
-                </div>
-                <div class="led-status" id="water4-status">น้ำเต็ม</div>
+<!-- สถานะระดับน้ำ (แสดงผลเป็น 3, 2, 1 แต่ใช้ ID เดิม) -->
+<div class="card">
+    <div class="card-header">
+        <span>💧</span>
+        <span>สถานะระดับน้ำ</span>
+    </div>
+    <div class="led-item">
+        <div class="led-left">
+            <div class="led-circle" id="water3-led"></div>
+            <div class="led-info">
+                <div class="led-label">กระบะที่ 3</div>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span>🚰</span>
-                <span>เก็บเกี่ยว</span>
-            </div>
-
-            <div class="switch-item pump">
-                <div class="switch-left">
-                    <div class="switch-icon">💧</div>
-                    <div class="switch-info">
-                        <div class="switch-label">กระบะที่ 1</div>
-                    </div>
-                </div>
-                <div class="toggle pump" id="pump1-toggle" onclick="togglePump(1)">
-                    <div class="toggle-thumb"></div>
-                </div>
-            </div>
-
-            <div class="switch-item pump">
-                <div class="switch-left">
-                    <div class="switch-icon">💧</div>
-                    <div class="switch-info">
-                        <div class="switch-label">กระบะที่ 2</div>
-                    </div>
-                </div>
-                <div class="toggle pump" id="pump2-toggle" onclick="togglePump(2)">
-                    <div class="toggle-thumb"></div>
-                </div>
-            </div>
-
-            <div class="switch-item pump">
-                <div class="switch-left">
-                    <div class="switch-icon">💧</div>
-                    <div class="switch-info">
-                        <div class="switch-label">กระบะที่ 3</div>
-                    </div>
-                </div>
-                <div class="toggle pump" id="pump3-toggle" onclick="togglePump(3)">
-                    <div class="toggle-thumb"></div>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <div class="info-icon">⚠️</div>
-                <div class="info-text">ขณะเก็บเกี่ยวไข่ผำควรอยู่กับเครื่องตลอดเวลา</div>
+        <div class="led-status" id="water3-status">น้ำเต็ม</div>
+    </div>
+    <div class="led-item">
+        <div class="led-left">
+            <div class="led-circle" id="water2-led"></div>
+            <div class="led-info">
+                <div class="led-label">กระบะที่ 2</div>
             </div>
         </div>
+        <div class="led-status" id="water2-status">น้ำเต็ม</div>
+    </div>
+    <div class="led-item">
+        <div class="led-left">
+            <div class="led-circle" id="water1-led"></div>
+            <div class="led-info">
+                <div class="led-label">กระบะที่ 1</div>
+            </div>
+        </div>
+        <div class="led-status" id="water1-status">น้ำเต็ม</div>
+    </div>
+    <div class="led-item">
+        <div class="led-left">
+            <div class="led-circle" id="water4-led"></div>
+            <div class="led-info">
+                <div class="led-label">🪣 ถังพักน้ำ</div>
+            </div>
+        </div>
+        <div class="led-status" id="water4-status">น้ำเต็ม</div>
+    </div>
+</div>
+
+<!-- เก็บเกี่ยว (แสดงผลเป็น 3, 2, 1 แต่ใช้ ID เดิม) -->
+<div class="card">
+    <div class="card-header">
+        <span>🚰</span>
+        <span>เก็บเกี่ยว</span>
+    </div>
+
+    <div class="switch-item pump">
+        <div class="switch-left">
+            <div class="switch-icon">💧</div>
+            <div class="switch-info">
+                <div class="switch-label">กระบะที่ 3</div>
+            </div>
+        </div>
+        <div class="toggle pump" id="pump3-toggle" onclick="togglePump(3)">
+            <div class="toggle-thumb"></div>
+        </div>
+    </div>
+
+    <div class="switch-item pump">
+        <div class="switch-left">
+            <div class="switch-icon">💧</div>
+            <div class="switch-info">
+                <div class="switch-label">กระบะที่ 2</div>
+            </div>
+        </div>
+        <div class="toggle pump" id="pump2-toggle" onclick="togglePump(2)">
+            <div class="toggle-thumb"></div>
+        </div>
+    </div>
+
+    <div class="switch-item pump">
+        <div class="switch-left">
+            <div class="switch-icon">💧</div>
+            <div class="switch-info">
+                <div class="switch-label">กระบะที่ 1</div>
+            </div>
+        </div>
+        <div class="toggle pump" id="pump1-toggle" onclick="togglePump(1)">
+            <div class="toggle-thumb"></div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-icon">⚠️</div>
+        <div class="info-text">ขณะเก็บเกี่ยวไข่ผำควรอยู่กับเครื่องตลอดเวลา</div>
+    </div>
+</div>
     </div>
 
     <script>const BLYNK_SERVER = 'https://blynk.cloud';
@@ -4782,5 +4785,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     </script>
 </body>
 </html>
-
 
