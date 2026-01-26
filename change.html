@@ -2545,8 +2545,8 @@ body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] div {
             </div>
             <div class="temp-grid">
                 <div class="temp-item">
-                    <div class="temp-label">กระบะที่ 3</div>
-                    <div class="temp-value" id="temp1">--</div>
+                    <div class="temp-label">กระบะที่ 1</div>
+                    <div class="temp-value" id="temp3">--</div>
                     <div class="temp-unit">&deg;C</div>
                 </div>
                 <div class="temp-item">
@@ -2555,8 +2555,8 @@ body.dark-mode div[style*="linear-gradient(135deg, rgba(232, 245, 233"] div {
                     <div class="temp-unit">&deg;C</div>
                 </div>
                 <div class="temp-item">
-                    <div class="temp-label">กระบะที่ 1</div>
-                    <div class="temp-value" id="temp3">--</div>
+                    <div class="temp-label">กระบะที่ 3</div>
+                    <div class="temp-value" id="temp1">--</div>
                     <div class="temp-unit">&deg;C</div>
                 </div>
             </div>
@@ -4257,73 +4257,74 @@ async function togglePump(pumpNum) {
                 }
                 
                 // 5. เช็คว่าไม่มีกระบะใดปลูกอยู่แล้ว
-                const anyPondActive = Object.values(growingStatus).some(s => s.active);
-                
-                console.log('🔍 ตรวจสอบกระบะที่ยังปลูกอยู่:', {
-                    pond1: growingStatus[1].active,
-                    pond2: growingStatus[2].active,
-                    pond3: growingStatus[3].active,
-                    anyActive: anyPondActive
-                });
-                
-                if (!anyPondActive) {
-                    console.log('🛑 ไม่มีกระบะปลูกอยู่เลย -> เริ่มปิดออกซิเจน + ไฟ');
-                    
-                    // 1. ปิดออกซิเจนก่อน
-                    console.log('📤 [1/4] ส่งคำสั่งปิดออกซิเจน...');
-                    const oxygenSuccess = await sendToBlynk('V25', 0);
-                    console.log(`   ผลลัพธ์: ${oxygenSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
-                    
-                    if (oxygenSuccess) {
-                        oxygenMode = 'MANUAL_OFF';
-                        updateOxygenModeUI();
-                    }
-                    
-                    // รอ 500ms
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
-                    // 2. ปิดไฟ
-                    console.log('📤 [2/4] ส่งคำสั่งปิดไฟ...');
-                    const lightSuccess = await sendToBlynk('V24', 0);
-                    console.log(`   ผลลัพธ์: ${lightSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
-                    
-                    if (lightSuccess) {
-                        lightMode = 'MANUAL_OFF';
-                        updateLightModeUI();
-                    }
-                    
-                    // รอ 3 วินาที (ให้ Arduino ทำงานจริงๆ)
-                    console.log('⏳ รอ 3 วินาที ให้อุปกรณ์ปิดจริง...');
-                    await new Promise(resolve => setTimeout(resolve, 3000));
-                    
-                    // 3. เปลี่ยนออกซิเจนกลับเป็น AUTO
-                    console.log('📤 [3/4] เปลี่ยนออกซิเจนกลับเป็น AUTO...');
-                    const oxygenAutoSuccess = await sendToBlynk('V25', 2);
-                    console.log(`   ผลลัพธ์: ${oxygenAutoSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
-                    
-                    if (oxygenAutoSuccess) {
-                        oxygenMode = 'AUTO';
-                        updateOxygenModeUI();
-                    }
-                    
-                    // รอ 500ms
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
-                    // 4. เปลี่ยนไฟกลับเป็น AUTO
-                    console.log('📤 [4/4] เปลี่ยนไฟกลับเป็น AUTO...');
-                    const lightAutoSuccess = await sendToBlynk('V24', 2);
-                    console.log(`   ผลลัพธ์: ${lightAutoSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
-                    
-                    if (lightAutoSuccess) {
-                        lightMode = 'AUTO';
-                        updateLightModeUI();
-                    }
-                    
-                    console.log('✅ เสร็จสิ้นกระบวนการปิดอุปกรณ์');
-                    
-                } else {
-                    console.log('✅ ยังมีกระบะปลูกอยู่ -> ออกซิเจน + ไฟ ทำงานต่อ');
-                }
+// 5. เช็คว่าไม่มีกระบะใดปลูกอยู่แล้ว
+const anyPondActive = Object.values(growingStatus).some(s => s.active);
+
+console.log('🔍 ตรวจสอบกระบะที่ยังปลูกอยู่:', {
+    pond1: growingStatus[1].active,
+    pond2: growingStatus[2].active,
+    pond3: growingStatus[3].active,
+    anyActive: anyPondActive
+});
+
+if (!anyPondActive) {
+    console.log('🛑 ไม่มีกระบะปลูกอยู่เลย -> เริ่มปิดออกซิเจน + ไฟ');
+    
+    // 1. ปิดออกซิเจนก่อน
+    console.log('📤 [1/4] ส่งคำสั่งปิดออกซิเจน...');
+    const oxygenSuccess = await sendToBlynk('V25', 0);
+    console.log(`   ผลลัพธ์: ${oxygenSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
+    
+    if (oxygenSuccess) {
+        oxygenMode = 'MANUAL_OFF';
+        updateOxygenModeUI();
+    }
+    
+    // รอ 500ms
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // 2. ปิดไฟ
+    console.log('📤 [2/4] ส่งคำสั่งปิดไฟ...');
+    const lightSuccess = await sendToBlynk('V24', 0);
+    console.log(`   ผลลัพธ์: ${lightSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
+    
+    if (lightSuccess) {
+        lightMode = 'MANUAL_OFF';
+        updateLightModeUI();
+    }
+    
+    // ⭐ รอ 10 วินาที (ให้อุปกรณ์ปิดจริงๆ ก่อนเปิด AUTO)
+    console.log('⏳ รอ 10 วินาที ให้อุปกรณ์ปิดจริง...');
+    await new Promise(resolve => setTimeout(resolve, 10000));
+    
+    // 3. เปลี่ยนออกซิเจนกลับเป็น AUTO
+    console.log('📤 [3/4] เปลี่ยนออกซิเจนกลับเป็น AUTO...');
+    const oxygenAutoSuccess = await sendToBlynk('V25', 2);
+    console.log(`   ผลลัพธ์: ${oxygenAutoSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
+    
+    if (oxygenAutoSuccess) {
+        oxygenMode = 'AUTO';
+        updateOxygenModeUI();
+    }
+    
+    // รอ 500ms
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // 4. เปลี่ยนไฟกลับเป็น AUTO
+    console.log('📤 [4/4] เปลี่ยนไฟกลับเป็น AUTO...');
+    const lightAutoSuccess = await sendToBlynk('V24', 2);
+    console.log(`   ผลลัพธ์: ${lightAutoSuccess ? '✅ สำเร็จ' : '❌ ล้มเหลว'}`);
+    
+    if (lightAutoSuccess) {
+        lightMode = 'AUTO';
+        updateLightModeUI();
+    }
+    
+
+    
+} else {
+    console.log('✅ ยังมีกระบะปลูกอยู่ -> ออกซิเจน + ไฟ ทำงานต่อ');
+}
                 
             } else {
                 console.error('❌ ไม่สามารถส่งคำสั่งปิดปั๊มได้');
@@ -4785,5 +4786,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     </script>
 </body>
 </html>
-
 
